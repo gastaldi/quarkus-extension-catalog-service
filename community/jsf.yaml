@@ -1,11 +1,14 @@
 ---
 name: "JavaServer Faces - MyFaces"
-gav: 
+coords:
+  groupId: org.apache.myfaces.core.extensions.quarkus
+  artifactId: myfaces-quarkus-runtime
+  version: 2.3-next-SNAPSHOT
 metadata:
   keywords:
   - "jsf"
   categories:
   - "ui"
   status: "experimental"
-  guide: "https://myfaces.apache.org"
+  guide: "https://github.com/apache/myfaces/tree/master/extensions/quarkus"
 

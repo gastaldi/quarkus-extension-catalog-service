@@ -1,2 +1,2 @@
-# quarkus-extension-registry
-Quarkus Extension Registry (community extensions)
+# quarkus-extension-catalog
+Quarkus Extension Catalog (community extensions)

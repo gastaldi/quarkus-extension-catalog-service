@@ -1,0 +1,11 @@
+---
+name: "JavaServer Faces - MyFaces"
+gav: 
+metadata:
+  keywords:
+  - "jsf"
+  categories:
+  - "ui"
+  status: "experimental"
+  guide: "https://myfaces.apache.org"
+

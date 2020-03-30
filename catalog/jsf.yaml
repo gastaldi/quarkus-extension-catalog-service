@@ -6,9 +6,9 @@ coords:
   version: 2.3-next-SNAPSHOT
 metadata:
   keywords:
-  - "jsf"
+    - "jsf"
   categories:
-  - "ui"
+    - "ui"
   status: "experimental"
   guide: "https://github.com/apache/myfaces/tree/master/extensions/quarkus"
 

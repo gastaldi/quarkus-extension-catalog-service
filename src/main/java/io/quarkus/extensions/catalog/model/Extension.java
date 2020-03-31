@@ -16,11 +16,13 @@ import org.immutables.value.Value;
 @JsonSerialize(as = ImmutableExtension.class)
 public interface Extension {
 
+    @Value.Auxiliary
     String getName();
 
     Coordinates getCoords();
 
     @Value.Default
+    @Value.Auxiliary
     default Map<String, Object> getMetadata() {
         return Collections.emptyMap();
     }

@@ -1,4 +1,4 @@
-package io.quarkus.extensions.catalog.model;
+package io.quarkus.extensions.catalog;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,40 +19,43 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.quarkus.extensions.catalog.model.Extension;
+import io.quarkus.extensions.catalog.model.ImmutablePlatform;
+import io.quarkus.extensions.catalog.model.Platform;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logmanager.Logger;
 
 @ApplicationScoped
-public class Catalogs {
+public class Registry {
 
-    private final Map<String, Catalog> catalogs = new HashMap<>();
-    private static final Logger logger = Logger.getLogger(Catalogs.class.getName());
+    private final Map<String, Platform> catalogs = new HashMap<>();
+    private static final Logger logger = Logger.getLogger(Registry.class.getName());
 
-    public Catalogs() {
+    public Registry() {
         // Used for testing
     }
 
     /**
-     * Builds a {@link Catalogs} object
+     * Builds a {@link Registry} object
      *
      * @param subPath must exist and be relative to the user home. Defaults to ~/.quarkus/extension-catalogs
      * @param converter the converter to use
      * @throws IOException
      */
-    public Catalogs(Path subPath, Function<Path, Extension> converter) throws IOException {
+    public Registry(Path subPath, Function<Path, Extension> converter) throws IOException {
         Path catalogPath = Paths.get(System.getProperty("user.home")).resolve(subPath);
         if (!Files.exists(catalogPath)) {
             throw new FileNotFoundException("File not found: " + catalogPath);
         }
         Files.walkFileTree(catalogPath, new SimpleFileVisitor<Path>() {
 
-            ImmutableCatalog.Builder catalogBuilder;
+            ImmutablePlatform.Builder platformBuilder;
             String id;
 
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                 id = dir.getFileName().toString();
-                catalogBuilder = ImmutableCatalog.builder();
+                platformBuilder = ImmutablePlatform.builder();
                 return FileVisitResult.CONTINUE;
             }
 
@@ -60,27 +63,27 @@ public class Catalogs {
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 Extension extension = converter.apply(file);
                 if (extension != null) {
-                    catalogBuilder.addExtensions(extension);
+                    platformBuilder.addExtensions(extension);
                 }
                 return super.visitFile(file, attrs);
             }
 
             @Override
             public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                put(id, catalogBuilder.build());
+                put(id, platformBuilder.build());
                 return FileVisitResult.CONTINUE;
             }
         });
     }
 
     /**
-     * Builds a {@link Catalogs} object. This is what CDI uses to create this object
+     * Builds a {@link Registry} object. This is what CDI uses to create this object
      * @param subPath must exist and be relative to the user home. Defaults to ~/.quarkus/extension-catalogs
      * @param objectMapper the JSON parser
      * @throws IOException if any IO error occurs
      */
     @Inject
-    public Catalogs(
+    public Registry(
             @ConfigProperty(name = "quarkus.catalog.path", defaultValue = ".quarkus/extension-catalogs")
                     Path subPath,
             ObjectMapper objectMapper) throws IOException {
@@ -97,7 +100,7 @@ public class Catalogs {
         });
     }
 
-    void put(String id, Catalog catalog) {
+    void put(String id, Platform catalog) {
         catalogs.put(id, catalog);
     }
 

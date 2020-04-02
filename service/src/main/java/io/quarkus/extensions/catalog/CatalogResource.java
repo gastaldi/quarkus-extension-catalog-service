@@ -20,6 +20,7 @@ public class CatalogResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all")
     public Set<Extension> all() {
-        return registry.getAllExtensions();
+        return null;
+//        return registry.getAllExtensions();
     }
 }

@@ -63,7 +63,7 @@ public class Registry {
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 Extension extension = converter.apply(file);
                 if (extension != null) {
-                    platformBuilder.addExtensions(extension);
+//                    platformBuilder.addExtensions(extension);
                 }
                 return super.visitFile(file, attrs);
             }
@@ -104,9 +104,9 @@ public class Registry {
         catalogs.put(id, catalog);
     }
 
-    public Set<Extension> getAllExtensions() {
-        return catalogs.values().stream()
-                .flatMap( f-> f.getExtensions().stream())
-                .collect(Collectors.toSet());
-    }
+//    public Set<Extension> getAllExtensions() {
+//        return catalogs.values().stream()
+//                .flatMap( f-> f.getExtensions().stream())
+//                .collect(Collectors.toSet());
+//    }
 }

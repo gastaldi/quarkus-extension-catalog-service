@@ -1,12 +1,17 @@
 package io.quarkus.extensions.catalog.model;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.immutables.value.Value;
 import org.immutables.value.Value.Auxiliary;
 import org.immutables.value.Value.Immutable;
 
@@ -14,16 +19,14 @@ import org.immutables.value.Value.Immutable;
  * An extension is a Maven dependency that can be added to a Quarkus project
  */
 @Immutable
-@JsonDeserialize(as = ImmutableExtension.class)
-@JsonSerialize(as = ImmutableExtension.class)
+@JsonDeserialize(builder = ExtensionBuilder.class)
 public interface Extension {
 
     @Auxiliary
     String getName();
 
-    Coordinates getCoords();
+    GroupArtifact getCoords();
 
-    @Nullable
     @Auxiliary
     Map<String, Object> getMetadata();
 
@@ -31,18 +34,11 @@ public interface Extension {
     List<ExtensionRelease> getReleases();
 
     @Immutable
-    @JsonSerialize(as = ImmutableCoordinates.class)
-    @JsonDeserialize(as = ImmutableCoordinates.class)
-    public interface Coordinates {
-        String getGroupId();
-        String getArtifactId();
-        String getVersion();
-    }
+    @JsonDeserialize(builder = ExtensionReleaseBuilder.class)
+    interface ExtensionRelease {
 
-    @Immutable
-    @JsonSerialize(as = ImmutableExtensionRelease.class)
-    @JsonDeserialize(as = ImmutableExtensionRelease.class)
-    public interface ExtensionRelease {
         String getVersion();
+
+        String getQuarkusVersion();
     }
 }

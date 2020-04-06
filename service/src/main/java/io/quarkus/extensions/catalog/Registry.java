@@ -10,18 +10,16 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.extensions.catalog.model.Extension;
-import io.quarkus.extensions.catalog.model.ImmutablePlatform;
 import io.quarkus.extensions.catalog.model.Platform;
+import io.quarkus.extensions.catalog.model.PlatformBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logmanager.Logger;
 
@@ -49,13 +47,13 @@ public class Registry {
         }
         Files.walkFileTree(catalogPath, new SimpleFileVisitor<Path>() {
 
-            ImmutablePlatform.Builder platformBuilder;
+            PlatformBuilder platformBuilder;
             String id;
 
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                 id = dir.getFileName().toString();
-                platformBuilder = ImmutablePlatform.builder();
+                platformBuilder = new PlatformBuilder();
                 return FileVisitResult.CONTINUE;
             }
 
@@ -63,7 +61,7 @@ public class Registry {
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 Extension extension = converter.apply(file);
                 if (extension != null) {
-//                    platformBuilder.addExtensions(extension);
+//                    platformBuilder.addReleases(extension);
                 }
                 return super.visitFile(file, attrs);
             }

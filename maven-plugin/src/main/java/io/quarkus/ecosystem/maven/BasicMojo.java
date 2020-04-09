@@ -1,12 +1,10 @@
 package io.quarkus.ecosystem.maven;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import io.quarkus.extensions.catalog.api.RepositoryParser;
-import io.quarkus.extensions.catalog.model.Repository;
+import io.quarkus.extensions.catalog.model.Registry;
 import io.quarkus.extensions.catalog.summary.ExtensionCatalog;
 import io.quarkus.extensions.catalog.summary.ExtensionCatalogBuilder;
 import io.quarkus.extensions.catalog.summary.ExtensionRelease;
@@ -109,8 +107,8 @@ public class BasicMojo extends AbstractMojo {
     }
 	private ExtensionCatalog buildExtensionsRepo() throws MojoExecutionException {
 		try {
-			Repository repository = RepositoryParser.parse(repositoryPath.toPath());
-			return ExtensionCatalogBuilder.getInstance(getMavenResolver()).build(Collections.singletonList(repository));
+			Registry registry = Registry.parse(repositoryPath.toPath());
+			return ExtensionCatalogBuilder.getInstance(getMavenResolver()).build(Collections.singletonList(registry));
 		} catch (ExtensionsRepositoryException e) {
 			throw new MojoExecutionException("Failed to build Quarkus extensions repo from " + repositoryPath, e);
 		}

@@ -1,8 +1,7 @@
-package io.quarkus.extensions.catalog.api;
+package io.quarkus.extensions.catalog.model;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -11,26 +10,28 @@ import java.nio.file.PathMatcher;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.StreamSupport;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import io.quarkus.extensions.catalog.model.Extension;
-import io.quarkus.extensions.catalog.model.Platform;
-import io.quarkus.extensions.catalog.model.Repository;
-import io.quarkus.extensions.catalog.model.RepositoryBuilder;
+import org.immutables.value.Value.Immutable;
 
-public class RepositoryParser {
+@Immutable
+@JsonDeserialize(builder = RegistryBuilder.class)
+public abstract class Registry {
+    public abstract List<Extension> getIndividualExtensions();
+    public abstract List<Platform> getPlatforms();
+
+    private static PathMatcher YAML_FILES = FileSystems.getDefault().getPathMatcher("glob:**/*.yaml");
 
     /**
      * Match all files ending with '.yaml'
      */
-    private static PathMatcher YAML_FILES = FileSystems.getDefault().getPathMatcher("glob:**/*.yaml");
-
-    public static Repository parse(Path rootPath) {
+    public static Registry parse(Path rootPath) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        return new RepositoryBuilder()
+        return new RegistryBuilder()
                 .addAllPlatforms(parse(rootPath.resolve("platforms"), Platform.class, mapper))
                 .addAllIndividualExtensions(parse(rootPath.resolve("extensions"), Extension.class, mapper))
                 .build();
@@ -53,4 +54,5 @@ public class RepositoryParser {
         }
         return result;
     }
+
 }

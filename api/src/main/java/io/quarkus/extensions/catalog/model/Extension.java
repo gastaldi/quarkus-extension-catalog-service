@@ -2,6 +2,8 @@ package io.quarkus.extensions.catalog.model;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value.Immutable;
 
@@ -11,6 +13,9 @@ import org.immutables.value.Value.Immutable;
 @Immutable
 @JsonDeserialize(builder = ExtensionBuilder.class)
 public interface Extension {
+
+    @Nullable
+    String getCommitId();
 
     String getGroupId();
 

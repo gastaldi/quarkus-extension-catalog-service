@@ -19,8 +19,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.immutables.value.Value.Immutable;
 
 @Immutable
-@JsonDeserialize(builder = RegistryBuilder.class)
-public abstract class Registry {
+@JsonDeserialize(builder = RepositoryBuilder.class)
+public abstract class Repository {
     public abstract List<Extension> getIndividualExtensions();
     public abstract List<Platform> getPlatforms();
 
@@ -29,9 +29,9 @@ public abstract class Registry {
     /**
      * Match all files ending with '.yaml'
      */
-    public static Registry parse(Path rootPath) {
+    public static Repository parse(Path rootPath) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        return new RegistryBuilder()
+        return new RepositoryBuilder()
                 .addAllPlatforms(parse(rootPath.resolve("platforms"), Platform.class, mapper))
                 .addAllIndividualExtensions(parse(rootPath.resolve("extensions"), Extension.class, mapper))
                 .build();

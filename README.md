@@ -2,7 +2,7 @@
 
 This project provides a model and a parser API to handle Quarkus extension repositories.
 
-A registry is a local directory (which can be cloned from a Git registry) with the following structure: 
+A repository is a local directory (which can be cloned from a Git repository) with the following structure: 
 
 ```bash
 .
@@ -25,7 +25,7 @@ releases:
     quarkusVersion: 1.4.0.Final
 ``` 
 
-The Quarkus extension MUST be released to a Maven registry. The descriptor states the GAV and the Quarkus version for each release (which is listed here for performance purposes - if not specified, the parser will attempt to resolve using the Maven Resolver API)
+The Quarkus extension MUST be released to a Maven repository. The descriptor states the GAV and the Quarkus version for each release (which is listed here for performance purposes - if not specified, the parser will attempt to resolve using the Maven Resolver API)
 
 
 ## Platforms 
@@ -33,14 +33,14 @@ The Quarkus extension MUST be released to a Maven registry. The descriptor state
 Platforms are a set of extensions of a specific version and MUST exist as a BOM. 
 
 
-At this point, there is a simple extension registry specification file in YAML format (an example can be found in `playground\quarkus-extensions-repo.yaml`)
+At this point, there is a simple extension repository specification file in YAML format (an example can be found in `playground\quarkus-extensions-repo.yaml`)
 that lists Maven coordinates of the existing platform BOMs as well as Maven coordinates of extensions that aren't appearing in any platform.
-Theoretically, this kind of file could be exposed to the users and be defining the content of an extension registry (e.g. Quarkus community extension registry).
+Theoretically, this kind of file could be exposed to the users and be defining the content of an extension repository (e.g. Quarkus community extension repository).
 
-There is a registry builder (implemented in the `builder` module) that can parse the spec yaml file and build the corresponding object model that
-allows to perform all sorts of queries accross the registry, such as:
+There is a repository builder (implemented in the `builder` module) that can parse the spec yaml file and build the corresponding object model that
+allows to perform all sorts of queries accross the repository, such as:
 
-* which Quarkus Core versions are supported in the registry;
+* which Quarkus Core versions are supported in the repository;
 * which platforms are available;
 * which extensions are available.
 
@@ -71,7 +71,7 @@ For a given extension release:
 
 The builder may take time to process the spec file and initialize the in-memory representation of the repo. However, once built, the repo
 could be persisted in another form that is more optimal to initialize from, if necessary. The idea to have the simplest possible format
-exposed to the users and admins to define the extension registry.
+exposed to the users and admins to define the extension repository.
 
 Also, just in case, the repo could also be initialized in a static-init method.
 

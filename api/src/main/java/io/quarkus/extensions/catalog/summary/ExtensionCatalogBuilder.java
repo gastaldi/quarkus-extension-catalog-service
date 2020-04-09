@@ -18,7 +18,7 @@ import io.quarkus.bootstrap.resolver.maven.MavenArtifactResolver;
 import io.quarkus.bootstrap.util.ZipUtils;
 import io.quarkus.extensions.catalog.model.Extension;
 import io.quarkus.extensions.catalog.model.Platform;
-import io.quarkus.extensions.catalog.model.Registry;
+import io.quarkus.extensions.catalog.model.Repository;
 import io.quarkus.extensions.catalog.model.Release;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
@@ -57,17 +57,17 @@ public class ExtensionCatalogBuilder {
     	this.mvn = mvn;
     }
 
-    public ExtensionCatalog build(List<Registry> registries) throws ExtensionsRepositoryException {
+    public ExtensionCatalog build(List<Repository> items) throws ExtensionsRepositoryException {
 		final ExtensionCatalog catalog = new ExtensionCatalog();
 
-		for (Registry registry : registries) {
-			for (Platform platform : registry.getPlatforms()) {
+		for (Repository repository : items) {
+			for (Platform platform : repository.getPlatforms()) {
 				for (Release release : platform.getReleases()) {
 					processPlatformSpec(catalog, platform, release);
 				}
 			}
 
-			for (Extension extension : registry.getIndividualExtensions()) {
+			for (Extension extension : repository.getIndividualExtensions()) {
 				for (Release release : extension.getReleases()) {
 					processIndividualExtensionSpec(catalog, extension, release);
 				}

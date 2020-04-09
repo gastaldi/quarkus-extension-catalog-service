@@ -15,12 +15,14 @@
   <modules>
     <module>api</module>
     <module>service</module>
+    <module>maven-plugin</module>
   </modules>
   <properties>
     <maven.compiler.parameters>true</maven.compiler.parameters>
-    <quarkus.version>1.3.2.Final</quarkus.version>
     <maven.compiler.target>11</maven.compiler.target>
     <maven.compiler.source>11</maven.compiler.source>
+
+    <quarkus.version>1.3.2.Final</quarkus.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -30,6 +32,17 @@
         <version>${quarkus.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-bootstrap-core</artifactId>
+        <version>${quarkus.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-provider-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>io.quarkus.extensions</groupId>

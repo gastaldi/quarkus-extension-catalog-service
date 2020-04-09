@@ -30,8 +30,8 @@ The Quarkus extension MUST be released to a Maven repository. The descriptor sta
 
 ## Platforms 
 
-Platforms are a set of extensions.  
-The parser API is provided in the `io.quarkus.extension.catalog.parser` package and reads YAML files in a format 
+Platforms are a set of extensions of a specific version and MUST exist as a BOM. 
+
 
 At this point, there is a simple extension repository specification file in YAML format (an example can be found in `playground\quarkus-extensions-repo.yaml`)
 that lists Maven coordinates of the existing platform BOMs as well as Maven coordinates of extensions that aren't appearing in any platform.

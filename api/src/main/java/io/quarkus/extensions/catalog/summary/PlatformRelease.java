@@ -1,5 +1,6 @@
 package io.quarkus.extensions.catalog.summary;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Objects;
 /**
  * Specific platform release
  */
-public class PlatformRelease {
+public class PlatformRelease implements Serializable {
 
 	private final PlatformSummary summary;
 	private final String version;

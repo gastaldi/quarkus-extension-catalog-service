@@ -1,5 +1,6 @@
 package io.quarkus.extensions.catalog.summary;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -10,7 +11,7 @@ import java.util.Set;
 /**
  * Specific extension release
  */
-public class ExtensionRelease {
+public class ExtensionRelease implements Serializable {
 
 	private final ExtensionSummary summary;
 	private final String version;

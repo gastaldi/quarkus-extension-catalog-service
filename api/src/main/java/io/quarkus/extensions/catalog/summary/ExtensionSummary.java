@@ -1,5 +1,6 @@
 package io.quarkus.extensions.catalog.summary;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +11,7 @@ import io.quarkus.bootstrap.model.AppArtifactKey;
 /**
  * Brief extension summary
  */
-public class ExtensionSummary {
+public class ExtensionSummary implements Serializable {
 
 	private final AppArtifactKey id;
 	private final Map<String, ExtensionRelease> releases = new HashMap<>();

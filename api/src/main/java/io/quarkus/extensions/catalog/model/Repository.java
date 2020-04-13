@@ -16,7 +16,9 @@ import org.immutables.value.Value.Immutable;
 @Immutable
 @JsonDeserialize(builder = RepositoryBuilder.class)
 public abstract class Repository {
+    
     public abstract List<Extension> getIndividualExtensions();
+
     public abstract List<Platform> getPlatforms();
 
     /**

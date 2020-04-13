@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.extensions.catalog.model.Repository;
 import io.quarkus.extensions.catalog.summary.ExtensionCatalog;
 import io.quarkus.extensions.catalog.summary.ExtensionCatalogBuilder;
@@ -121,7 +122,8 @@ public class BasicMojo extends AbstractMojo {
     }
 	private ExtensionCatalog buildExtensionsRepo() throws MojoExecutionException {
 		try {
-			Repository repository = Repository.parse(repositoryPath.toPath());
+			ObjectMapper mapper = new ObjectMapper();
+			Repository repository = Repository.parse(repositoryPath.toPath(), mapper);
 			return ExtensionCatalogBuilder.getInstance(getMavenResolver()).build(Collections.singletonList(repository));
 		} catch (ExtensionsRepositoryException e) {
 			throw new MojoExecutionException("Failed to build Quarkus extensions repo from " + repositoryPath, e);

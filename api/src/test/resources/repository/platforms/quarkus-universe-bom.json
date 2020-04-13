@@ -1,0 +1,12 @@
+{
+  "groupId": "io.quarkus",
+  "artifactId": "quarkus-universe-bom",
+  "releases": [
+    {
+      "version": "1.3.1.Final"
+    },
+    {
+      "version": "1.3.2.Final"
+    }
+  ]
+}

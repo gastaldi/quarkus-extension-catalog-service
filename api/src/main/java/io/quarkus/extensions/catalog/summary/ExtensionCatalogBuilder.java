@@ -80,7 +80,7 @@ public class ExtensionCatalogBuilder {
 	private void processIndividualExtensionSpec(ExtensionCatalog repo, Extension spec, Release release) throws ExtensionsRepositoryException {
 		final Artifact artifact = new DefaultArtifact(spec.getGroupId(), spec.getArtifactId(), "jar", release.getVersion());
 		debug("Processing individual extension %s", artifact);
-		String quarkusCoreVersion = release.getQuarkusVersion();
+		String quarkusCoreVersion = release.getQuarkusCore();
 		if (quarkusCoreVersion == null) {
 			try {
 				quarkusCoreVersion = resolveQuarkusCoreVersion(artifact);
@@ -97,7 +97,7 @@ public class ExtensionCatalogBuilder {
 	private void processPlatformSpec(ExtensionCatalog repo, Platform spec, Release release) throws ExtensionsRepositoryException {
 		debug("Processing platform %s:%s:%s", spec.getGroupId(), spec.getArtifactId(), release.getVersion());
 		final ArtifactDescriptorResult platformArtifactDescr = resolveDescriptor(spec.getGroupId(), spec.getArtifactId(), release.getVersion());
-		String platformQuarkusCoreVersion = release.getQuarkusVersion();
+		String platformQuarkusCoreVersion = release.getQuarkusCore();
 		if (platformQuarkusCoreVersion == null) {
 			platformQuarkusCoreVersion = findQuarkusCoreVersion(platformArtifactDescr.getManagedDependencies());
 		}

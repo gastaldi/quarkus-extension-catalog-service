@@ -1,6 +1,9 @@
 package io.quarkus.ecosystem.maven;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +23,7 @@ import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.repository.RemoteRepository;
 import io.quarkus.bootstrap.resolver.AppModelResolverException;
 import io.quarkus.bootstrap.resolver.maven.MavenArtifactResolver;
+import org.neo4j.driver.GraphDatabase;
 
 
 /**
@@ -46,11 +50,21 @@ public class BasicMojo extends AbstractMojo {
 	public void execute() throws MojoExecutionException, MojoFailureException {
 	    final ExtensionCatalog repo = buildExtensionsRepo();
 
-	    logSummary(repo);
+		try {
+			logSummary(repo);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-    private void logSummary(ExtensionCatalog repo) {
-
+    private void logSummary(ExtensionCatalog repo) throws IOException {
+		try (FileOutputStream fos = new FileOutputStream("/tmp/foo.obj");
+			 ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+			oos.writeObject(repo);
+			oos.flush();
+		}
+		if (true)
+			return;
     	log("");
 		log("REPOSITORY SUMMARY");
 

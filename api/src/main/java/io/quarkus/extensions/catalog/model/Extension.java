@@ -14,9 +14,6 @@ import org.immutables.value.Value.Immutable;
 @JsonDeserialize(builder = ExtensionBuilder.class)
 public interface Extension {
 
-    @Nullable
-    String getCommitId();
-
     String getGroupId();
 
     String getArtifactId();

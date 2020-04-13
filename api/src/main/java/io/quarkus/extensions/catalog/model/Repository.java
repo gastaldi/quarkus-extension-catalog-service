@@ -31,7 +31,7 @@ public abstract class Repository {
 
     private static <T> Set<T> parse(Path root, Class<? extends T> type, ObjectMapper objectMapper) {
         final Set<T> result = new HashSet<>();
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(root, "**/*.json")) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(root, "*.json")) {
             for (Path path : stream) {
                 result.add(objectMapper.readValue(path.toFile(), type));
             }

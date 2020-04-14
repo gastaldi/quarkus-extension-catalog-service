@@ -1,4 +1,4 @@
-package io.quarkus.extensions.catalog.service;
+package io.quarkus.extensions.catalog.spi;
 
 import io.quarkus.dependencies.Extension;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;

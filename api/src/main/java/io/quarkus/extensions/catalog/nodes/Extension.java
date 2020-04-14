@@ -1,7 +1,7 @@
 package io.quarkus.extensions.catalog.nodes;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
@@ -22,18 +22,24 @@ public class Extension implements Coordinates {
     @Relationship("RUNS_ON")
     public QuarkusCore quarkusCore;
 
+//    @Relationship("DEPENDS_ON")
+//    Set<Extension> dependencies = new HashSet<>();
+//
+//    public void dependsOn(Extension extension) {
+//        dependencies.add(extension);
+//    }
+
+    @Relationship(type = "CONTAINS", direction = Relationship.INCOMING)
+    public List<Platform> platforms = new ArrayList<>();
+
+    public Extension() {
+    }
+
     public Extension(String groupId, String artifactId, String version, QuarkusCore quarkusCore) {
         this.groupId = groupId;
         this.artifactId = artifactId;
         this.version = version;
         this.quarkusCore = quarkusCore;
-    }
-
-    @Relationship("DEPENDS_ON")
-    Set<Extension> dependencies = new HashSet<>();
-
-    public void dependsOn(Extension extension) {
-        dependencies.add(extension);
     }
 
     @Override
@@ -53,5 +59,9 @@ public class Extension implements Coordinates {
 
     public QuarkusCore getQuarkusCore() {
         return quarkusCore;
+    }
+
+    public void addPlatform(Platform platform) {
+        platforms.add(platform);
     }
 }

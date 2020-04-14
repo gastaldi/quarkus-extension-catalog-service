@@ -5,7 +5,9 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import io.quarkus.dependencies.Category;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.extensions.catalog.model.Platform;
@@ -54,7 +56,12 @@ class IndexerTest {
     void shouldVisitParsedElements() throws Exception {
         Path rootPath = Paths.get("../playground/repository");
         assertThat(rootPath).exists();
-        Repository repository = Repository.parse(rootPath, new ObjectMapper());
+        ObjectMapper objectMapper = new ObjectMapper()
+                .enable(JsonParser.Feature.ALLOW_COMMENTS)
+                .enable(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS)
+                .setPropertyNamingStrategy(PropertyNamingStrategy.KEBAB_CASE);
+
+        Repository repository = Repository.parse(rootPath, objectMapper);
         Indexer indexer = new Indexer();
         IndexVisitor mock = mock(IndexVisitor.class);
         indexer.index(repository, mock);

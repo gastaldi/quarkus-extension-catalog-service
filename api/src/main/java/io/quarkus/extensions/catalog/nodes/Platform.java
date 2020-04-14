@@ -30,13 +30,15 @@ public class Platform implements Coordinates {
     public Platform() {
     }
 
-    public Platform(String groupId, String artifactId, String version) {
+    public Platform(String groupId, String artifactId, String version, QuarkusCore core) {
         this.groupId = groupId;
         this.artifactId = artifactId;
         this.version = version;
+        this.quarkusCore = core;
     }
 
-    public void add(Extension extension) {
+    public void addExtension(Extension extension) {
+        extension.addPlatform(this);
         extensions.add(extension);
     }
 

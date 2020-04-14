@@ -15,6 +15,7 @@
   <modules>
     <module>api</module>
     <module>service</module>
+    <module>bitsy</module>
     <module>maven-plugin</module>
   </modules>
   <properties>

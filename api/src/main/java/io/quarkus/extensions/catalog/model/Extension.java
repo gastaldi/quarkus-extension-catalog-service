@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value.Immutable;
 
@@ -14,8 +15,10 @@ import org.immutables.value.Value.Immutable;
 @JsonDeserialize(builder = ExtensionBuilder.class)
 public interface Extension {
 
+    @JsonProperty("group-id")
     String getGroupId();
 
+    @JsonProperty("artifact-id")
     String getArtifactId();
 
     List<Release> getReleases();

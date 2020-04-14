@@ -1,4 +1,4 @@
-package io.quarkus.extensions.catalog.service;
+package io.quarkus.extensions.catalog;
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,9 +13,9 @@ import io.quarkus.extensions.catalog.model.PlatformBuilder;
 import io.quarkus.extensions.catalog.model.Release;
 import io.quarkus.extensions.catalog.model.ReleaseBuilder;
 import io.quarkus.extensions.catalog.model.Repository;
+import io.quarkus.extensions.catalog.spi.IndexVisitor;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,7 +25,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 class IndexerTest {
-
     @Test
     void shouldFormatURL() {
         Release release = new ReleaseBuilder().version("1.3.1.Final").build();

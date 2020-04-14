@@ -1,4 +1,4 @@
-package io.quarkus.extension.catalog.model;
+package io.quarkus.extensions.catalog.model;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;

@@ -1,4 +1,4 @@
-package io.quarkus.extensions.catalog.service;
+package io.quarkus.extensions.catalog;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

@@ -15,14 +15,21 @@ A repository is a local directory (which can be cloned from a Git repository) wi
 ## Extensions
 For maintenance purposes, each extension is declared in its own file and has the following structure:
 
-```yaml
-groupId: "org.apache.myfaces.core.extensions.quarkus"
-artifactId: "myfaces-quarkus-runtime"
-releases:
-  - version: 2.3-next
-    quarkusVersion: 1.3.1.Final
-  - version: 2.4-next
-    quarkusVersion: 1.4.0.Final
+```json
+{
+  "group-id": "org.apache.myfaces.core.extensions.quarkus",
+  "artifact-id": "quarkus-myfaces",
+  "releases": [
+    {
+      "version": "2.3-next",
+      "quarkus-core":  "1.3.1.Final"
+    },
+    {
+      "version": "2.4-next",
+      "quarkus-core": "1.3.2.Final"
+    }
+  ]
+}
 ``` 
 
 The Quarkus extension MUST be released to a Maven repository. The descriptor states the GAV and the Quarkus version for each release (which is listed here for performance purposes - if not specified, the parser will attempt to resolve using the Maven Resolver API)
@@ -32,6 +39,20 @@ The Quarkus extension MUST be released to a Maven repository. The descriptor sta
 
 Platforms are a set of extensions of a specific version and MUST exist as a BOM. 
 
+```json
+{
+  "group-id": "io.quarkus",
+  "artifact-id": "quarkus-universe-bom",
+  "releases": [
+    {
+      "version": "1.3.1.Final"
+    },
+    {
+      "version": "1.3.2.Final"
+    }
+  ]
+}
+```
 
 At this point, there is a simple extension repository specification file in YAML format (an example can be found in `playground\quarkus-extensions-repo.yaml`)
 that lists Maven coordinates of the existing platform BOMs as well as Maven coordinates of extensions that aren't appearing in any platform.
@@ -77,18 +98,7 @@ Also, just in case, the repo could also be initialized in a static-init method.
 
 ## To give it a try
 
-1. `mvn install` This will install the `builder` and the `io.quarkus:quarkus-ecosystem-maven-plugin` into the local Maven repo
-2. `cd playground`
-3. `python install-non-platform-extensions.py` This will install a few dummy extensions in the local Maven repo that aren't appearing in any platform
-   (It creates a `tmp` dir and calls `io.quarkus:quarkus-maven-plugin:1.3.1.Final:create-extension` for the individual extensions found in `quarkus-extensions-repo.yaml`)
-4. Look into `quarkus-extensions-repo.yaml` and adjust it, if you like (NOTE: the extensions will be created with Quarkus Core 1.3.1.Final release)
-5. `mvn io.quarkus:quarkus-ecosystem-maven-plugin:999-SNAPSHOT:generate-extensions-repo`
-  * This will parse the yaml file;
-  * Unfortunately it will be resolving a lot of Maven artifacts to get the extension descriptors and the Quarkus version info
-    (this step can be significantly optimized if we add a few things into our extension descriptors). Once it has downloaded everything
-    subsequent runs will be faster.
-  * Build the in-memory repo object model;
-  * dump the repo summary on the screen.
+1. `mvn install` This will install the `api` and the `neo4j` modules into the local Maven repo
 
 ## Running the application in dev mode
 

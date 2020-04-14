@@ -1,4 +1,4 @@
-package io.quarkus.extensions.catalog.nodes;
+package io.quarkus.extension.catalog.neo4j.nodes;
 
 import java.util.HashSet;
 import java.util.Set;

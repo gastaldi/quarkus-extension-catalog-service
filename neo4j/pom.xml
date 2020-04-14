@@ -9,16 +9,25 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>quarkus-extension-catalog-bitsy</artifactId>
+  <artifactId>quarkus-extension-catalog-neo4j</artifactId>
   <dependencies>
     <dependency>
       <groupId>io.quarkus.extensions</groupId>
       <artifactId>quarkus-extension-catalog-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.lambdazen.bitsy</groupId>
-      <artifactId>bitsy</artifactId>
-      <version>3.3.1</version>
+      <groupId>org.neo4j</groupId>
+      <artifactId>neo4j-ogm-core</artifactId>
+      <version>3.2.10</version>
+    </dependency>
+    <dependency> <!-- If you're using the Bolt driver -->
+      <groupId>org.neo4j</groupId>
+      <artifactId>neo4j-ogm-bolt-driver</artifactId>
+      <version>3.2.10</version>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j.driver</groupId>
+      <artifactId>neo4j-java-driver</artifactId>
     </dependency>
   </dependencies>
 

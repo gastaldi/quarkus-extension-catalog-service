@@ -9,18 +9,20 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import io.quarkus.dependencies.Extension;
+import io.quarkus.extensions.catalog.ExtensionCatalog;
 import io.quarkus.extensions.catalog.spi.IndexVisitor;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 
 import static java.util.stream.Collectors.toList;
 
-public class MemoryIndex implements IndexVisitor {
+public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
 
     private final Map<String, List<Extension>> extensionsByCoreVersion = new TreeMap<>();
     private final Map<String, QuarkusPlatformDescriptor> platforms = new TreeMap<>();
 
     // findById methods
-    public Optional<Extension> findExtension(String id) {
+    @Override
+    public Optional<Extension> findByExtensionId(String id) {
         return extensionsByCoreVersion.values()
                 .stream()
                 .flatMap(Collection::stream)
@@ -32,16 +34,19 @@ public class MemoryIndex implements IndexVisitor {
         return platforms.get(toPlatformKey(groupId,artifactId,version));
     }
 
+    @Override
     public Set<String> getQuarkusCoreVersions() {
         return extensionsByCoreVersion.keySet();
     }
 
-    public List<QuarkusPlatformDescriptor> getPlatformForExtension(Extension extension) {
+    @Override
+    public List<QuarkusPlatformDescriptor> getPlatformsForExtension(Extension extension) {
         return platforms.values().stream()
                 .filter(pl -> pl.getExtensions().contains(extension))
                 .collect(toList());
     }
 
+    @Override
     public List<Extension> getExtensionsByCoreVersion(String version) {
         return extensionsByCoreVersion.get(version);
     }

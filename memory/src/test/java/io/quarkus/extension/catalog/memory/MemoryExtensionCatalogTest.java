@@ -11,24 +11,24 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MemoryIndexTest {
+class MemoryExtensionCatalogTest {
 
-    static MemoryIndex memoryIndex = new MemoryIndex();
+    static MemoryExtensionCatalog catalog = new MemoryExtensionCatalog();
 
     @BeforeAll
     static void setUp() throws IOException {
         Repository repository = Repository.parse(Paths.get("../playground/repository"), new ObjectMapper());
         Indexer indexer = new Indexer();
-        indexer.index(repository, memoryIndex);
+        indexer.index(repository, catalog);
     }
 
     @Test
     void shouldReturnTwoQuarkusCoreVersions() {
-        assertThat(memoryIndex.getQuarkusCoreVersions()).containsExactly("1.3.1.Final", "1.3.2.Final");
+        assertThat(catalog.getQuarkusCoreVersions()).containsExactly("1.3.1.Final", "1.3.2.Final");
     }
 
     @Test
     void shouldReturnIndividualExtension() {
-        assertThat(memoryIndex.findExtension("org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime:2.4-next")).isNotEmpty();
+        assertThat(catalog.findByExtensionId("org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime:2.4-next")).isNotEmpty();
     }
 }

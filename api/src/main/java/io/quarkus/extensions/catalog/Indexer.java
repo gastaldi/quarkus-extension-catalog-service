@@ -31,12 +31,11 @@ public class Indexer {
                 .setPropertyNamingStrategy(PropertyNamingStrategy.KEBAB_CASE);
     }
 
-    public void index(Repository repository, IndexVisitor visitor) throws IOException{
+    public void index(Repository repository, IndexVisitor visitor) throws IOException {
         // Index Platforms
         for (Platform platform : repository.getPlatforms()) {
             for (Release release : platform.getReleases()) {
-                QuarkusPlatformDescriptor descriptor = readPlatformDescriptor(platform, release);
-                visitor.visitPlatform(descriptor);
+                visitor.visitPlatform(readPlatformDescriptor(platform, release));
             }
         }
 

@@ -15,6 +15,7 @@
   <modules>
     <module>api</module>
     <module>neo4j</module>
+    <module>memory</module>
     <module>service</module>
   </modules>
   <properties>

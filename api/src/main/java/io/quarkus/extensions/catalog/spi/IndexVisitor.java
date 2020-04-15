@@ -5,6 +5,6 @@ import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 
 public interface IndexVisitor {
 
-    void visitPlatform(QuarkusPlatformDescriptor descriptor);
-    void visitExtension(Extension descriptor, String quarkusCore);
+    void visitPlatform(QuarkusPlatformDescriptor platform);
+    void visitExtension(Extension extension, String quarkusCore);
 }

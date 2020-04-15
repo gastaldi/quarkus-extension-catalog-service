@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
 
     private final Map<String, List<Extension>> extensionsByCoreVersion = new TreeMap<>();
-    private final Map<String, QuarkusPlatformDescriptor> platforms = new TreeMap<>();
+    private final List<QuarkusPlatformDescriptor> platforms = new ArrayList<>();
 
     // findById methods
     @Override
@@ -30,10 +30,6 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
                 .findFirst();
     }
 
-    public QuarkusPlatformDescriptor getPlatform(String groupId, String artifactId, String version) {
-        return platforms.get(toPlatformKey(groupId,artifactId,version));
-    }
-
     @Override
     public Set<String> getQuarkusCoreVersions() {
         return extensionsByCoreVersion.keySet();
@@ -41,7 +37,7 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
 
     @Override
     public List<QuarkusPlatformDescriptor> getPlatformsForExtension(Extension extension) {
-        return platforms.values().stream()
+        return platforms.stream()
                 .filter(pl -> pl.getExtensions().contains(extension))
                 .collect(toList());
     }
@@ -54,17 +50,12 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
     @Override
     public void visitPlatform(QuarkusPlatformDescriptor platform) {
         String quarkusCore = platform.getQuarkusVersion();
-        String platformKey = toPlatformKey(platform.getBomGroupId(), platform.getBomArtifactId(), platform.getBomVersion());
-        platforms.put(platformKey, platform);
+        platforms.add(platform);
         extensionsByCoreVersion.computeIfAbsent(quarkusCore, k -> new ArrayList<>()).addAll(platform.getExtensions());
     }
 
     @Override
     public void visitExtension(Extension descriptor, String quarkusCore) {
         extensionsByCoreVersion.computeIfAbsent(quarkusCore, k -> new ArrayList<>()).add(descriptor);
-    }
-
-    private String toPlatformKey(String groupId, String artifactId, String version) {
-        return String.format("%s:%s:%s", groupId, artifactId, version);
     }
 }

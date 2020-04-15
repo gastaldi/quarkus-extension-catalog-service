@@ -53,20 +53,6 @@ public class Neo4jExample {
 
                 transaction.commit();
             }
-            System.out.println("ACABOU");
-//            List<Record> list = session.drun("MATCH (ee:Person) RETURN ee").list();
-//                System.out.println(list.get(0).get("ee").asNode().asMap());
-//            try ( Session session = driver.session() )
-//            {
-//                String greeting = session.writeTransaction(tx -> {
-//                    Result result = tx.run("CREATE (a:Greeting) " +
-//                                                    "SET a.message = $message " +
-//                                                    "RETURN a.message + ', from node ' + id(a)",
-//                                           parameters( "message", "Hello World" ) );
-//                    return result.single().get( 0 ).asString();
-//                });
-//                System.out.println( greeting );
-//            }
-        }
+       }
     }
 }

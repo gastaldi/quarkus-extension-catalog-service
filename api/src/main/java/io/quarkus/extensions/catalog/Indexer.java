@@ -7,6 +7,7 @@ import java.text.MessageFormat;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import io.quarkus.extensions.catalog.model.Extension;
 import io.quarkus.extensions.catalog.model.Platform;
@@ -21,14 +22,13 @@ import io.quarkus.platform.descriptor.loader.json.impl.QuarkusJsonPlatformDescri
  */
 public class Indexer {
 
-    private final ObjectMapper objectMapper;
+    private final ObjectReader objectReader;
 
     @SuppressWarnings("deprecation")
-    public Indexer() {
-        this.objectMapper = new ObjectMapper()
-                .enable(JsonParser.Feature.ALLOW_COMMENTS)
-                .enable(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS)
-                .setPropertyNamingStrategy(PropertyNamingStrategy.KEBAB_CASE);
+    public Indexer(ObjectMapper mapper) {
+        this.objectReader = mapper.reader()
+                .withFeatures(JsonParser.Feature.ALLOW_COMMENTS, JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS)
+                .with(mapper.getDeserializationConfig().with(PropertyNamingStrategy.KEBAB_CASE));
     }
 
     public void index(Repository repository, IndexVisitor visitor) throws IOException {
@@ -52,7 +52,7 @@ public class Indexer {
     QuarkusPlatformDescriptor readPlatformDescriptor(Platform platform, Release release) throws IOException {
         // TODO: Use Maven API to resolve JSON?
         URL url = getPlatformJSONURL(platform, release);
-        return objectMapper.readValue(url, QuarkusJsonPlatformDescriptor.class);
+        return objectReader.forType(QuarkusJsonPlatformDescriptor.class).readValue(url);
 //        QuarkusJsonPlatformDescriptorLoaderImpl loader = new QuarkusJsonPlatformDescriptorLoaderImpl();
 //        return loader.load(new QuarkusJsonPlatformDescriptorLoaderContext(null) {
 //            @Override

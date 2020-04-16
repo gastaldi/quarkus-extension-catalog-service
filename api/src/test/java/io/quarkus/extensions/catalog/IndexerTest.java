@@ -47,7 +47,7 @@ class IndexerTest {
                 .groupId("io.quarkus")
                 .artifactId("quarkus-universe-bom")
                 .addReleases(release).build();
-        Indexer indexer = new Indexer();
+        Indexer indexer = new Indexer(new ObjectMapper());
         QuarkusPlatformDescriptor descriptor = indexer.readPlatformDescriptor(platform, release);
         assertThat(descriptor).isNotNull();
     }
@@ -57,7 +57,7 @@ class IndexerTest {
         Path rootPath = Paths.get("src/test/resources/repository");
         assertThat(rootPath).exists();
         Repository repository = Repository.parse(rootPath, new ObjectMapper());
-        Indexer indexer = new Indexer();
+        Indexer indexer = new Indexer(new ObjectMapper());
         IndexVisitor mock = mock(IndexVisitor.class);
         indexer.index(repository, mock);
         verify(mock, atLeast(4)).visitPlatform(any(QuarkusPlatformDescriptor.class));

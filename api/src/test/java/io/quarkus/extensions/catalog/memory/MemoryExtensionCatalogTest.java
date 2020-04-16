@@ -23,7 +23,7 @@ class MemoryExtensionCatalogTest {
     @BeforeAll
     static void setUp() throws IOException {
         Repository repository = Repository.parse(Paths.get("src/test/resources/repository"), new ObjectMapper());
-        Indexer indexer = new Indexer();
+        Indexer indexer = new Indexer(new ObjectMapper());
         indexer.index(repository, catalog);
     }
 

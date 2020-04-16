@@ -56,12 +56,7 @@ class IndexerTest {
     void shouldVisitParsedElements() throws Exception {
         Path rootPath = Paths.get("../playground/repository");
         assertThat(rootPath).exists();
-        ObjectMapper objectMapper = new ObjectMapper()
-                .enable(JsonParser.Feature.ALLOW_COMMENTS)
-                .enable(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS)
-                .setPropertyNamingStrategy(PropertyNamingStrategy.KEBAB_CASE);
-
-        Repository repository = Repository.parse(rootPath, objectMapper);
+        Repository repository = Repository.parse(rootPath, new ObjectMapper());
         Indexer indexer = new Indexer();
         IndexVisitor mock = mock(IndexVisitor.class);
         indexer.index(repository, mock);

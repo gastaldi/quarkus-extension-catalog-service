@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
+
+import javax.annotation.Nullable;
 
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
@@ -17,7 +20,7 @@ public interface ExtensionCatalog {
 
     List<QuarkusPlatformDescriptor> getPlatformsForExtension(Extension extension);
 
-    List<Extension> getExtensionsByCoreVersion(String version);
+    Set<Extension> getExtensionsByCoreVersion(String version);
 
     // findById methods
     Optional<Extension> findByExtensionId(String id);
@@ -34,17 +37,17 @@ public interface ExtensionCatalog {
         /**
          * @return Platforms (BOMs) to be added to the build descriptor
          */
-        Collection<QuarkusPlatformDescriptor> getPlatforms();
+        List<QuarkusPlatformDescriptor> getPlatforms();
 
         /**
          * @return Extensions that are included in the platforms returned in {@link #getPlatforms()},
          * therefore setting the version is not required.
          */
-        Collection<Extension> getExtensionsInPlatforms();
+        List<Extension> getExtensionsInPlatforms();
 
         /**
-         * @return Extensions that do not exist in any platform
+         * @return Extensions that do not exist in any platform, the version MUST be set in the build descriptor
          */
-        Collection<Extension> getIndependentExtensions();
+        List<Extension> getIndependentExtensions();
     }
 }

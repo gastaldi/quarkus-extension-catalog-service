@@ -2,6 +2,11 @@ package io.quarkus.extensions.catalog.memory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +17,7 @@ import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.extensions.catalog.ExtensionCatalog;
 import io.quarkus.extensions.catalog.LookupResultBuilder;
+import io.quarkus.extensions.catalog.model.Platform;
 import io.quarkus.extensions.catalog.spi.IndexVisitor;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 
@@ -22,8 +28,8 @@ import static java.util.stream.Collectors.toList;
  */
 public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
 
-    private final Map<String, List<Extension>> extensionsByCoreVersion = new TreeMap<>();
-    private final List<QuarkusPlatformDescriptor> platforms = new ArrayList<>();
+    private final Map<String, Set<Extension>> extensionsByCoreVersion = new TreeMap<>();
+    private final Set<QuarkusPlatformDescriptor> platforms = new LinkedHashSet<>();
 
     // findById methods
     @Override
@@ -37,7 +43,7 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
 
     @Override
     public Set<String> getQuarkusCoreVersions() {
-        return extensionsByCoreVersion.keySet();
+        return Collections.unmodifiableSet(extensionsByCoreVersion.keySet());
     }
 
     @Override
@@ -48,25 +54,44 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
     }
 
     @Override
-    public List<Extension> getExtensionsByCoreVersion(String version) {
-        return extensionsByCoreVersion.get(version);
+    public Set<Extension> getExtensionsByCoreVersion(String version) {
+        return Collections.unmodifiableSet(extensionsByCoreVersion.get(version));
     }
 
     @Override
     public LookupResult lookup(String quarkusCore, Collection<AppArtifactKey> extensions) {
         LookupResultBuilder builder = new LookupResultBuilder();
-        return builder.build();
+        List<Extension> extensionList = extensionsByCoreVersion.get(quarkusCore)
+                .stream()
+                .filter(ext -> extensions.contains(AppArtifactKey.fromString(ext.managementKey())))
+                .collect(toList());
+        Map<Extension, QuarkusPlatformDescriptor> extensionPlatformMap = new HashMap<>();
+        // For each extension, find the corresponding Platform
+        for (Extension extension : extensionList) {
+            for (QuarkusPlatformDescriptor platform : platforms) {
+                if (platform.getExtensions().contains(extension)) {
+                    extensionPlatformMap.put(extension, platform);
+                    break;
+                }
+            }
+        }
+        // Remove extensions containing platforms
+        extensionList.removeAll(extensionPlatformMap.keySet());
+        return builder.addAllExtensionsInPlatforms(extensionPlatformMap.keySet())
+                .addAllPlatforms(new HashSet<>(extensionPlatformMap.values()))
+                .addAllIndependentExtensions(extensionList)
+                .build();
     }
 
     @Override
     public void visitPlatform(QuarkusPlatformDescriptor platform) {
         String quarkusCore = platform.getQuarkusVersion();
         platforms.add(platform);
-        extensionsByCoreVersion.computeIfAbsent(quarkusCore, k -> new ArrayList<>()).addAll(platform.getExtensions());
+        extensionsByCoreVersion.computeIfAbsent(quarkusCore, k -> new HashSet<>()).addAll(platform.getExtensions());
     }
 
     @Override
     public void visitExtension(Extension descriptor, String quarkusCore) {
-        extensionsByCoreVersion.computeIfAbsent(quarkusCore, k -> new ArrayList<>()).add(descriptor);
+        extensionsByCoreVersion.computeIfAbsent(quarkusCore, k -> new HashSet<>()).add(descriptor);
     }
 }

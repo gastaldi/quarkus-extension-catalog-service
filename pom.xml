@@ -15,7 +15,6 @@
   <modules>
     <module>api</module>
     <module>neo4j</module>
-    <module>service</module>
   </modules>
   <properties>
     <maven.compiler.parameters>true</maven.compiler.parameters>
@@ -47,11 +46,6 @@
       <dependency>
         <groupId>io.quarkus.extensions</groupId>
         <artifactId>quarkus-extension-catalog-api</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.quarkus.extensions</groupId>
-        <artifactId>quarkus-extension-catalog-service</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

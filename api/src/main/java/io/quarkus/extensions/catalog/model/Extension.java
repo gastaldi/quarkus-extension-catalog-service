@@ -22,5 +22,6 @@ public interface Extension {
     @JsonProperty("artifact-id")
     String getArtifactId();
 
+    @Value.Auxiliary
     List<Release> getReleases();
 }

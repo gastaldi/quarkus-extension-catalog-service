@@ -17,6 +17,9 @@ import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Stores the indexed extension catalog in memory
+ */
 public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
 
     private final Map<String, List<Extension>> extensionsByCoreVersion = new TreeMap<>();

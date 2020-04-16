@@ -19,6 +19,7 @@ public interface Platform {
 
     @Value.Default
     @JsonProperty("group-id-json")
+    @Value.Auxiliary
     default String getGroupIdJson() {
         return getGroupId();
     }
@@ -28,9 +29,11 @@ public interface Platform {
 
     @Value.Default
     @JsonProperty("artifact-id-json")
+    @Value.Auxiliary
     default String getArtifactIdJson() {
         return getArtifactId();
     }
 
+    @Value.Auxiliary
     List<Release> getReleases();
 }

@@ -54,7 +54,7 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
                 .stream()
                 .filter(ext -> extensions.contains(ext.managementKey()))
                 .collect(toList());
-        Map<Extension, QuarkusPlatformDescriptor> extensionPlatformMap = new HashMap<>();
+        Map<Extension, QuarkusPlatformDescriptor> extensionPlatformMap = new HashMap<>(extensions.size());
         // For each extension, find the corresponding Platform
         for (Extension extension : extensionList) {
             for (QuarkusPlatformDescriptor platform : platforms) {

@@ -44,13 +44,14 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
 
     @Override
     public Set<Extension> getExtensionsByCoreVersion(String version) {
-        return Collections.unmodifiableSet(extensionsByCoreVersion.get(version));
+        Set<Extension> set = extensionsByCoreVersion.get(version);
+        return set == null ? Collections.emptySet() : Collections.unmodifiableSet(set);
     }
 
     @Override
     public LookupResult lookup(String quarkusCore, Collection<String> extensions) {
         LookupResultBuilder builder = new LookupResultBuilder();
-        List<Extension> extensionList = extensionsByCoreVersion.get(quarkusCore)
+        List<Extension> extensionList = extensionsByCoreVersion.getOrDefault(quarkusCore, Collections.emptySet())
                 .stream()
                 .filter(ext -> extensions.contains(ext.managementKey()))
                 .collect(toList());

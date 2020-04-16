@@ -44,13 +44,6 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
     }
 
     @Override
-    public List<QuarkusPlatformDescriptor> getPlatformsForExtension(Extension extension) {
-        return platforms.stream()
-                .filter(pl -> pl.getExtensions().contains(extension))
-                .collect(toList());
-    }
-
-    @Override
     public Set<Extension> getExtensionsByCoreVersion(String version) {
         return Collections.unmodifiableSet(extensionsByCoreVersion.get(version));
     }

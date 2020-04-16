@@ -15,8 +15,6 @@ public interface ExtensionCatalog {
     // Query methods
     Set<String> getQuarkusCoreVersions();
 
-    List<QuarkusPlatformDescriptor> getPlatformsForExtension(Extension extension);
-
     Set<Extension> getExtensionsByCoreVersion(String version);
 
     // findById methods

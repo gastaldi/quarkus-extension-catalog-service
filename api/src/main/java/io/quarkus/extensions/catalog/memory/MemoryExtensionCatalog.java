@@ -1,11 +1,9 @@
 package io.quarkus.extensions.catalog.memory;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +15,6 @@ import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.extensions.catalog.ExtensionCatalog;
 import io.quarkus.extensions.catalog.LookupResultBuilder;
-import io.quarkus.extensions.catalog.model.Platform;
 import io.quarkus.extensions.catalog.spi.IndexVisitor;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 
@@ -87,6 +84,7 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
     public void visitPlatform(QuarkusPlatformDescriptor platform) {
         String quarkusCore = platform.getQuarkusVersion();
         platforms.add(platform);
+
         extensionsByCoreVersion.computeIfAbsent(quarkusCore, k -> new HashSet<>()).addAll(platform.getExtensions());
     }
 

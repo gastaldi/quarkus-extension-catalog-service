@@ -7,10 +7,8 @@ import java.util.Arrays;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.extensions.catalog.ExtensionCatalog;
-import io.quarkus.extensions.catalog.Indexer;
-import io.quarkus.extensions.catalog.memory.MemoryExtensionCatalog;
+import io.quarkus.extensions.catalog.RepositoryIndexer;
 import io.quarkus.extensions.catalog.model.Repository;
-import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +21,7 @@ class MemoryExtensionCatalogTest {
     @BeforeAll
     static void setUp() throws IOException {
         Repository repository = Repository.parse(Paths.get("src/test/resources/repository"), new ObjectMapper());
-        Indexer indexer = new Indexer(new ObjectMapper());
+        RepositoryIndexer indexer = new RepositoryIndexer(new ObjectMapper());
         indexer.index(repository, catalog);
     }
 

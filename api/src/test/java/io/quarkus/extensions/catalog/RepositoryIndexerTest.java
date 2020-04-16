@@ -5,10 +5,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import io.quarkus.dependencies.Category;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.extensions.catalog.model.Platform;
 import io.quarkus.extensions.catalog.model.PlatformBuilder;
@@ -24,10 +21,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-class IndexerTest {
+class RepositoryIndexerTest {
     @Test
     void shouldFormatURL() {
         Release release = new ReleaseBuilder().version("1.3.1.Final").build();
@@ -35,7 +31,7 @@ class IndexerTest {
                 .groupId("io.quarkus")
                 .artifactId("quarkus-universe-bom")
                 .addReleases(release).build();
-        URL url = Indexer.getPlatformJSONURL(platform, release);
+        URL url = RepositoryIndexer.getPlatformJSONURL(platform, release);
         assertThat(url).hasPath("/maven2/io/quarkus/quarkus-universe-bom/1.3.1.Final/quarkus-universe-bom-1.3.1.Final.json");
     }
 
@@ -47,7 +43,7 @@ class IndexerTest {
                 .groupId("io.quarkus")
                 .artifactId("quarkus-universe-bom")
                 .addReleases(release).build();
-        Indexer indexer = new Indexer(new ObjectMapper());
+        RepositoryIndexer indexer = new RepositoryIndexer(new ObjectMapper());
         QuarkusPlatformDescriptor descriptor = indexer.readPlatformDescriptor(platform, release);
         assertThat(descriptor).isNotNull();
     }
@@ -57,7 +53,7 @@ class IndexerTest {
         Path rootPath = Paths.get("src/test/resources/repository");
         assertThat(rootPath).exists();
         Repository repository = Repository.parse(rootPath, new ObjectMapper());
-        Indexer indexer = new Indexer(new ObjectMapper());
+        RepositoryIndexer indexer = new RepositoryIndexer(new ObjectMapper());
         IndexVisitor mock = mock(IndexVisitor.class);
         indexer.index(repository, mock);
         verify(mock, atLeast(4)).visitPlatform(any(QuarkusPlatformDescriptor.class));

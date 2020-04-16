@@ -18,14 +18,14 @@ import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import io.quarkus.platform.descriptor.loader.json.impl.QuarkusJsonPlatformDescriptor;
 
 /**
- *
+ * Indexes a repository
  */
-public class Indexer {
+public class RepositoryIndexer {
 
     private final ObjectReader objectReader;
 
     @SuppressWarnings("deprecation")
-    public Indexer(ObjectMapper mapper) {
+    public RepositoryIndexer(ObjectMapper mapper) {
         this.objectReader = mapper.reader()
                 .withFeatures(JsonParser.Feature.ALLOW_COMMENTS, JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS)
                 .with(mapper.getDeserializationConfig().with(PropertyNamingStrategy.KEBAB_CASE));
@@ -42,6 +42,7 @@ public class Indexer {
         // Index extensions
         for (Extension extension : repository.getIndividualExtensions()) {
             for (Release release : extension.getReleases()) {
+                // TODO: Grab the quarkus-extension.yaml from the extension's jar
                 io.quarkus.dependencies.Extension ext = new io.quarkus.dependencies.Extension(extension.getGroupId(), extension.getArtifactId(), release.getVersion());
                 visitor.visitExtension(ext, release.getQuarkusCore());
             }

@@ -8,8 +8,7 @@ A repository is a local directory (which can be cloned from a Git repository) wi
 .
 ├── extensions
 │   └── jsf.yaml
-└── platforms
-    └── quarkus-bom.yaml
+└── platforms.json
 ```
 
 ## Extensions
@@ -37,21 +36,39 @@ The Quarkus extension MUST be released to a Maven repository. The descriptor sta
 
 ## Platforms 
 
-Platforms are a set of extensions of a specific version and MUST exist as a BOM. 
+Platforms are a set of extensions of a specific version and MUST exist as a BOM. Since the order is important, it is declared as a single JSON (ordered by priority - the preferred BOMs in the top)
 
 ```json
-{
-  "group-id": "io.quarkus",
-  "artifact-id": "quarkus-universe-bom",
-  "releases": [
-    {
-      "version": "1.3.1.Final"
-    },
-    {
-      "version": "1.3.2.Final"
-    }
-  ]
-}
+[
+  {
+    "group-id": "io.quarkus",
+    "artifact-id": "quarkus-universe-bom",
+    "releases": [
+      {
+        "version": "1.3.1.Final"
+      },
+      {
+        "version": "1.3.2.Final"
+      }
+    ]
+  },
+  {
+    "group-id": "io.quarkus",
+    "artifact-id": "quarkus-bom",
+    "artifact-id-json": "quarkus-bom-descriptor-json",
+    "releases": [
+      {
+        "version": "1.3.1.Final"
+      },
+      {
+        "version": "1.3.2.Final"
+      },
+      {
+        "version": "1.4.0.CR1"
+      }
+    ]
+  }
+]
 ```
 
 The idea is to provide an utility that would allow to perform all sorts of queries across the repository, such as:

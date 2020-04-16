@@ -26,7 +26,8 @@ public abstract class Repository {
     public abstract List<Platform> getPlatforms();
 
     /**
-     * Match all files ending with '.yaml'
+     * - Match all files ending with '.json' inside an extensions directory
+     * - Match platforms.json
      */
     @SuppressWarnings("deprecation")
     public static Repository parse(Path rootPath, ObjectMapper mapper) {
@@ -52,7 +53,7 @@ public abstract class Repository {
         } else {
             CollectionType collectionType = reader.getTypeFactory().constructCollectionType(List.class, type);
             try {
-                result.addAll((List<T>)reader.forType(collectionType).readValue(root.toFile()));
+                result.addAll(reader.forType(collectionType).readValue(root.toFile()));
             } catch (IOException e) {
                 e.printStackTrace();
             }

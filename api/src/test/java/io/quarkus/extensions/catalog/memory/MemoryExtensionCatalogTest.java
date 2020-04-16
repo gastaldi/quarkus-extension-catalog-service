@@ -38,8 +38,8 @@ class MemoryExtensionCatalogTest {
     @Test
     void shouldLookupPlatformForDependentExtensionInQuarkusFinal() {
         ExtensionCatalog.LookupResult result = catalog.lookup("1.3.1.Final", Arrays.asList(
-                AppArtifactKey.fromString("io.quarkus:quarkus-resteasy"),
-                AppArtifactKey.fromString("io.quarkus:quarkus-jgit")
+                "io.quarkus:quarkus-resteasy",
+                "io.quarkus:quarkus-jgit"
         ));
         assertThat(result).isNotNull();
         assertThat(result.getPlatforms()).hasSize(1);
@@ -51,8 +51,8 @@ class MemoryExtensionCatalogTest {
     @Test
     void shouldLookupPlatformForDependentExtensionInQuarkusCR() {
         ExtensionCatalog.LookupResult result = catalog.lookup("1.4.0.CR1", Arrays.asList(
-                AppArtifactKey.fromString("io.quarkus:quarkus-resteasy"),
-                AppArtifactKey.fromString("io.quarkus:quarkus-jgit")
+                "io.quarkus:quarkus-resteasy",
+                "io.quarkus:quarkus-jgit"
         ));
         assertThat(result).isNotNull();
         assertThat(result.getPlatforms()).hasSize(1);
@@ -62,7 +62,7 @@ class MemoryExtensionCatalogTest {
     @Test
     void shouldLookupNoPlatformForIndependentExtension() {
         ExtensionCatalog.LookupResult result = catalog.lookup("1.3.1.Final", Arrays.asList(
-                AppArtifactKey.fromString("org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime")
+                "org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime"
         ));
         assertThat(result).isNotNull();
         assertThat(result.getPlatforms()).isEmpty();

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import org.immutables.value.Value;
@@ -22,10 +21,10 @@ public interface ExtensionCatalog {
 
     /**
      * The extensions and platforms to be added to the build descriptor
-     * @param extensions the extensions to be resolved
-     * @return a {@link LookupResult} with the
+     * @param extensions the extensions GA (groupId + ":" + artifactId) to be resolved
+     * @return a {@link LookupResult}
      */
-    LookupResult lookup(String quarkusCore, Collection<AppArtifactKey> extensions);
+    LookupResult lookup(String quarkusCore, Collection<String> extensionsGav);
 
     @Value.Immutable
     interface LookupResult {

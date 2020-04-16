@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
-import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.extensions.catalog.ExtensionCatalog;
 import io.quarkus.extensions.catalog.LookupResultBuilder;
@@ -49,11 +48,11 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
     }
 
     @Override
-    public LookupResult lookup(String quarkusCore, Collection<AppArtifactKey> extensions) {
+    public LookupResult lookup(String quarkusCore, Collection<String> extensions) {
         LookupResultBuilder builder = new LookupResultBuilder();
         List<Extension> extensionList = extensionsByCoreVersion.get(quarkusCore)
                 .stream()
-                .filter(ext -> extensions.contains(AppArtifactKey.fromString(ext.managementKey())))
+                .filter(ext -> extensions.contains(ext.managementKey()))
                 .collect(toList());
         Map<Extension, QuarkusPlatformDescriptor> extensionPlatformMap = new HashMap<>();
         // For each extension, find the corresponding Platform

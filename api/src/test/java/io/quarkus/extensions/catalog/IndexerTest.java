@@ -54,7 +54,7 @@ class IndexerTest {
 
     @Test
     void shouldVisitParsedElements() throws Exception {
-        Path rootPath = Paths.get("../playground/repository");
+        Path rootPath = Paths.get("src/test/resources/repository");
         assertThat(rootPath).exists();
         Repository repository = Repository.parse(rootPath, new ObjectMapper());
         Indexer indexer = new Indexer();

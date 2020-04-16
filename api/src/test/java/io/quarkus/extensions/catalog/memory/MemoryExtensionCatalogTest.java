@@ -1,10 +1,11 @@
-package io.quarkus.extension.catalog.memory;
+package io.quarkus.extensions.catalog.memory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.extensions.catalog.Indexer;
+import io.quarkus.extensions.catalog.memory.MemoryExtensionCatalog;
 import io.quarkus.extensions.catalog.model.Repository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

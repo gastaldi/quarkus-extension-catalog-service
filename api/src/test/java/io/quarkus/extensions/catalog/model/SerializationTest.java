@@ -14,14 +14,14 @@ public class SerializationTest {
     @Test
     public void shouldSerializeExtension() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        Extension extension = mapper.readValue(new File("src/test/resources/repository/extensions/jsf.json"), Extension.class);
+        Extension extension = mapper.readValue(new File("../playground/repository/extensions/jsf.json"), Extension.class);
         assertThat(extension).isNotNull();
     }
 
     @Test
     public void shouldSerializePlatform() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        Platform platform = mapper.readValue(new File("src/test/resources/repository/platforms/quarkus-bom.json"), Platform.class);
+        Platform platform = mapper.readValue(new File("../playground/repository/platforms/quarkus-bom.json"), Platform.class);
         assertThat(platform).isNotNull();
     }
 

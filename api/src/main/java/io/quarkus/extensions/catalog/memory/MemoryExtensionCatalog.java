@@ -1,4 +1,4 @@
-package io.quarkus.extension.catalog.memory;
+package io.quarkus.extensions.catalog.memory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,8 +8,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
+import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.extensions.catalog.ExtensionCatalog;
+import io.quarkus.extensions.catalog.LookupResultBuilder;
 import io.quarkus.extensions.catalog.spi.IndexVisitor;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 
@@ -45,6 +47,12 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
     @Override
     public List<Extension> getExtensionsByCoreVersion(String version) {
         return extensionsByCoreVersion.get(version);
+    }
+
+    @Override
+    public LookupResult lookup(String quarkusCore, Collection<AppArtifactKey> extensions) {
+        LookupResultBuilder builder = new LookupResultBuilder();
+        return builder.build();
     }
 
     @Override

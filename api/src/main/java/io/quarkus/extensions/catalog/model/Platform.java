@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.immutables.value.Value;
 import org.immutables.value.Value.Immutable;
 
 /**
@@ -16,8 +17,20 @@ public interface Platform {
     @JsonProperty("group-id")
     String getGroupId();
 
+    @Value.Default
+    @JsonProperty("group-id-json")
+    default String getGroupIdJson() {
+        return getGroupId();
+    }
+
     @JsonProperty("artifact-id")
     String getArtifactId();
+
+    @Value.Default
+    @JsonProperty("artifact-id-json")
+    default String getArtifactIdJson() {
+        return getArtifactId();
+    }
 
     List<Release> getReleases();
 }

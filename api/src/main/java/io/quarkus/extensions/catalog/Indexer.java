@@ -68,7 +68,10 @@ public class Indexer {
 
     static URL getPlatformJSONURL(Platform platform, Release release) {
         try {
-            return new URL(MessageFormat.format("https://repo1.maven.org/maven2/{0}/{1}/{2}/{1}-{2}.json", platform.getGroupId().replace('.', '/'), platform.getArtifactId(), release.getVersion()));
+            return new URL(MessageFormat.format("https://repo1.maven.org/maven2/{0}/{1}/{2}/{1}-{2}.json",
+                                                platform.getGroupIdJson().replace('.', '/'),
+                                                platform.getArtifactIdJson(),
+                                                release.getVersion()));
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Error while building JSON URL", e);
         }

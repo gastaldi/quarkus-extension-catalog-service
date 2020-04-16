@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -48,7 +49,6 @@ class IndexerTest {
                 .addReleases(release).build();
         Indexer indexer = new Indexer();
         QuarkusPlatformDescriptor descriptor = indexer.readPlatformDescriptor(platform, release);
-        descriptor.getCategories().stream().map(Category::getName).forEach(System.out::println);
         assertThat(descriptor).isNotNull();
     }
 
@@ -65,7 +65,7 @@ class IndexerTest {
         Indexer indexer = new Indexer();
         IndexVisitor mock = mock(IndexVisitor.class);
         indexer.index(repository, mock);
-        verify(mock, times(4)).visitPlatform(any(QuarkusPlatformDescriptor.class));
-        verify(mock, times(2)).visitExtension(any(Extension.class), anyString());
+        verify(mock, atLeast(4)).visitPlatform(any(QuarkusPlatformDescriptor.class));
+        verify(mock, atLeast(2)).visitExtension(any(Extension.class), anyString());
     }
 }

@@ -15,7 +15,6 @@
   <modules>
     <module>api</module>
     <module>neo4j</module>
-    <module>memory</module>
     <module>service</module>
   </modules>
   <properties>
@@ -23,7 +22,7 @@
     <maven.compiler.target>11</maven.compiler.target>
     <maven.compiler.source>11</maven.compiler.source>
 
-    <quarkus.version>1.3.2.Final</quarkus.version>
+    <quarkus.version>1.4.0.CR1</quarkus.version>
   </properties>
   <dependencyManagement>
     <dependencies>

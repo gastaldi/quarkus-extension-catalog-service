@@ -1,12 +1,16 @@
 {
   "group-id": "io.quarkus",
-  "artifact-id": "quarkus-bom-descriptor-json",
+  "artifact-id": "quarkus-bom",
+  "artifact-id-json": "quarkus-bom-descriptor-json",
   "releases": [
     {
       "version": "1.3.1.Final"
     },
     {
       "version": "1.3.2.Final"
+    },
+    {
+      "version": "1.4.0.CR1"
     }
   ]
 }

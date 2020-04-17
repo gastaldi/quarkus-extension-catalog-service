@@ -22,8 +22,9 @@ class RepositoryIndexerTest {
     void shouldVisitParsedElements() throws Exception {
         Path rootPath = Paths.get("src/test/resources/repository");
         assertThat(rootPath).exists();
-        Repository repository = Repository.parse(rootPath, new ObjectMapper());
-        RepositoryIndexer indexer = new RepositoryIndexer(new ObjectMapper());
+        ObjectMapper mapper = new ObjectMapper();
+        Repository repository = Repository.parse(rootPath, mapper);
+        RepositoryIndexer indexer = new RepositoryIndexer(new DefaultArtifactResolver(mapper));
         IndexVisitor mock = mock(IndexVisitor.class);
         indexer.index(repository, mock);
         verify(mock, atLeast(4)).visitPlatform(any(QuarkusPlatformDescriptor.class));

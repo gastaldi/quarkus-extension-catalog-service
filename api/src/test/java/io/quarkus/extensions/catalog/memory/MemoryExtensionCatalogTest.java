@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.quarkus.bootstrap.model.AppArtifactKey;
+import io.quarkus.extensions.catalog.DefaultArtifactResolver;
 import io.quarkus.extensions.catalog.ExtensionCatalog;
 import io.quarkus.extensions.catalog.RepositoryIndexer;
 import io.quarkus.extensions.catalog.model.Repository;
@@ -20,19 +20,20 @@ class MemoryExtensionCatalogTest {
 
     @BeforeAll
     static void setUp() throws IOException {
-        Repository repository = Repository.parse(Paths.get("src/test/resources/repository"), new ObjectMapper());
-        RepositoryIndexer indexer = new RepositoryIndexer(new ObjectMapper());
+        ObjectMapper mapper = new ObjectMapper();
+        Repository repository = Repository.parse(Paths.get("src/test/resources/repository"), mapper);
+        RepositoryIndexer indexer = new RepositoryIndexer(new DefaultArtifactResolver(mapper));
         indexer.index(repository, catalog);
     }
 
     @Test
-    void shouldReturnTwoQuarkusCoreVersions() {
-        assertThat(catalog.getQuarkusCoreVersions()).containsExactly("1.3.1.Final", "1.3.2.Final", "1.4.0.CR1");
+    void shouldReturnFourQuarkusCoreVersions() {
+        assertThat(catalog.getQuarkusCoreVersions()).containsExactly("1.1.0.CR1", "1.3.1.Final", "1.3.2.Final", "1.4.0.CR1");
     }
 
     @Test
     void shouldReturnIndividualExtension() {
-        assertThat(catalog.findByExtensionId("org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime:2.4-next")).isNotEmpty();
+        assertThat(catalog.findByExtensionId("org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime:2.3-next-M2")).isNotEmpty();
     }
 
     @Test
@@ -71,7 +72,7 @@ class MemoryExtensionCatalogTest {
         assertThat(result.getIndependentExtensions().get(0))
                 .hasFieldOrPropertyWithValue("groupId", "org.apache.myfaces.core.extensions.quarkus")
                 .hasFieldOrPropertyWithValue("artifactId", "myfaces-quarkus-runtime")
-                .hasFieldOrPropertyWithValue("version", "2.3-next");
+                .hasFieldOrPropertyWithValue("version", "2.3-next-M2");
     }
 
 }

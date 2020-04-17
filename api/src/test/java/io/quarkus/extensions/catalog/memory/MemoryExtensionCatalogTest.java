@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.extensions.catalog.DefaultArtifactResolver;
 import io.quarkus.extensions.catalog.ExtensionCatalog;
 import io.quarkus.extensions.catalog.RepositoryIndexer;
@@ -39,8 +40,8 @@ class MemoryExtensionCatalogTest {
     @Test
     void shouldLookupPlatformForDependentExtensionInQuarkusFinal() {
         ExtensionCatalog.LookupResult result = catalog.lookup("1.3.1.Final", Arrays.asList(
-                "io.quarkus:quarkus-resteasy",
-                "io.quarkus:quarkus-jgit"
+                AppArtifactKey.fromString("io.quarkus:quarkus-resteasy"),
+                AppArtifactKey.fromString("io.quarkus:quarkus-jgit")
         ));
         assertThat(result).isNotNull();
         assertThat(result.getPlatforms()).hasSize(1);
@@ -52,8 +53,8 @@ class MemoryExtensionCatalogTest {
     @Test
     void shouldLookupPlatformForDependentExtensionInQuarkusCR() {
         ExtensionCatalog.LookupResult result = catalog.lookup("1.4.0.CR1", Arrays.asList(
-                "io.quarkus:quarkus-resteasy",
-                "io.quarkus:quarkus-jgit"
+                AppArtifactKey.fromString("io.quarkus:quarkus-resteasy"),
+                AppArtifactKey.fromString("io.quarkus:quarkus-jgit")
         ));
         assertThat(result).isNotNull();
         assertThat(result.getPlatforms()).hasSize(1);
@@ -63,7 +64,7 @@ class MemoryExtensionCatalogTest {
     @Test
     void shouldLookupNoPlatformForIndependentExtension() {
         ExtensionCatalog.LookupResult result = catalog.lookup("1.3.1.Final", Arrays.asList(
-                "org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime"
+                AppArtifactKey.fromString("org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime")
         ));
         assertThat(result).isNotNull();
         assertThat(result.getPlatforms()).isEmpty();

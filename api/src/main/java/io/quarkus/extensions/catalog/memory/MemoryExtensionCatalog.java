@@ -1,5 +1,6 @@
 package io.quarkus.extensions.catalog.memory;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * Stores the indexed extension catalog in memory
  */
-public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor {
+public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor, Serializable {
 
     private final Map<String, Set<Extension>> extensionsByCoreVersion = new TreeMap<>();
     private final Set<QuarkusPlatformDescriptor> platforms = new LinkedHashSet<>();

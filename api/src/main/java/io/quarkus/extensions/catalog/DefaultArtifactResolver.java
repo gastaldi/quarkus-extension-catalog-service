@@ -25,11 +25,9 @@ public class DefaultArtifactResolver implements ArtifactResolver {
 
     public DefaultArtifactResolver(ObjectMapper mapper) {
         this.jsonReader = mapper.reader()
-                .withFeatures(JsonParser.Feature.ALLOW_COMMENTS, JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS)
                 .with(mapper.getDeserializationConfig().with(PropertyNamingStrategy.KEBAB_CASE));
         this.yamlReader = mapper.reader()
                 .with(new YAMLFactory())
-                .withFeatures(JsonParser.Feature.ALLOW_COMMENTS, JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS)
                 .with(mapper.getDeserializationConfig().with(PropertyNamingStrategy.KEBAB_CASE));
     }
 

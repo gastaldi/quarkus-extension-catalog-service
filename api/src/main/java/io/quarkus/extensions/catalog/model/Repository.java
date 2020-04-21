@@ -29,10 +29,8 @@ public abstract class Repository {
      * - Match all files ending with '.json' inside an extensions directory
      * - Match platforms.json
      */
-    @SuppressWarnings("deprecation")
     public static Repository parse(Path rootPath, ObjectMapper mapper) {
         ObjectReader reader = mapper.reader()
-                .withFeatures(JsonParser.Feature.ALLOW_COMMENTS, JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS)
                 .with(mapper.getDeserializationConfig().with(PropertyNamingStrategy.KEBAB_CASE));
         return new RepositoryBuilder()
                 .addAllPlatforms(parse(rootPath.resolve("platforms.json"), Platform.class, reader))

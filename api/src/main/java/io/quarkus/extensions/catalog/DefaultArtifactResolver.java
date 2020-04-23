@@ -14,6 +14,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.quarkus.extensions.catalog.model.Extension;
 import io.quarkus.extensions.catalog.model.Platform;
 import io.quarkus.extensions.catalog.model.Release;
+import io.quarkus.extensions.catalog.model.ReleaseBuilder;
 import io.quarkus.extensions.catalog.spi.ArtifactResolver;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import io.quarkus.platform.descriptor.loader.json.impl.QuarkusJsonPlatformDescriptor;
@@ -32,8 +33,18 @@ public class DefaultArtifactResolver implements ArtifactResolver {
     }
 
     @Override
+    public QuarkusPlatformDescriptor resolveLatestPlatform(Platform platform) throws IOException {
+        return resolvePlatform(platform, new ReleaseBuilder().version("LATEST").build());
+    }
+
+    @Override
+    public io.quarkus.dependencies.Extension resolveLatestExtension(Extension extension) throws IOException {
+        return resolveExtension(extension, new ReleaseBuilder().version("LATEST").build());
+    }
+
+    @Override
     public QuarkusPlatformDescriptor resolvePlatform(Platform platform, Release release) throws IOException {
-        // TODO: Use Maven API to resolve JSON?
+        // TODO: Use Maven API to resolve the JSON?
         URL url = getPlatformJSONURL(platform, release);
         return jsonReader.forType(QuarkusJsonPlatformDescriptor.class).readValue(url);
     }

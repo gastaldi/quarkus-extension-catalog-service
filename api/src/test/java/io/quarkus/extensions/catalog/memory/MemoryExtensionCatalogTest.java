@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.extensions.catalog.DefaultArtifactResolver;
 import io.quarkus.extensions.catalog.ExtensionCatalog;
+import io.quarkus.extensions.catalog.LookupParametersBuilder;
 import io.quarkus.extensions.catalog.RepositoryIndexer;
 import io.quarkus.extensions.catalog.model.Repository;
 import org.junit.jupiter.api.BeforeAll;
@@ -39,10 +40,11 @@ class MemoryExtensionCatalogTest {
 
     @Test
     void shouldLookupPlatformForDependentExtensionInQuarkusFinal() {
-        ExtensionCatalog.LookupResult result = catalog.lookup("1.3.1.Final", Arrays.asList(
-                AppArtifactKey.fromString("io.quarkus:quarkus-resteasy"),
-                AppArtifactKey.fromString("io.quarkus:quarkus-jgit")
-        ));
+        ExtensionCatalog.LookupResult result = catalog.lookup(
+                new LookupParametersBuilder().quarkusCore("1.3.1.Final").addExtensions(
+                        AppArtifactKey.fromString("io.quarkus:quarkus-resteasy"),
+                        AppArtifactKey.fromString("io.quarkus:quarkus-jgit")
+                ).build());
         assertThat(result).isNotNull();
         assertThat(result.getPlatforms()).hasSize(1);
         assertThat(result.getPlatforms().get(0).getBomArtifactId()).isEqualTo("quarkus-universe-bom");
@@ -52,10 +54,10 @@ class MemoryExtensionCatalogTest {
 
     @Test
     void shouldLookupPlatformForDependentExtensionInQuarkusCR() {
-        ExtensionCatalog.LookupResult result = catalog.lookup("1.4.0.CR1", Arrays.asList(
+        ExtensionCatalog.LookupResult result = catalog.lookup(new LookupParametersBuilder().quarkusCore("1.4.0.CR1").addExtensions(
                 AppArtifactKey.fromString("io.quarkus:quarkus-resteasy"),
                 AppArtifactKey.fromString("io.quarkus:quarkus-jgit")
-        ));
+        ).build());
         assertThat(result).isNotNull();
         assertThat(result.getPlatforms()).hasSize(1);
         assertThat(result.getPlatforms().get(0).getBomArtifactId()).isEqualTo("quarkus-bom");
@@ -63,9 +65,10 @@ class MemoryExtensionCatalogTest {
 
     @Test
     void shouldLookupNoPlatformForIndependentExtension() {
-        ExtensionCatalog.LookupResult result = catalog.lookup("1.3.1.Final", Arrays.asList(
-                AppArtifactKey.fromString("org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime")
-        ));
+        ExtensionCatalog.LookupResult result = catalog.lookup(
+                new LookupParametersBuilder().quarkusCore("1.3.1.Final").addExtensions(
+                        AppArtifactKey.fromString("org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime")
+                ).build());
         assertThat(result).isNotNull();
         assertThat(result.getPlatforms()).isEmpty();
         assertThat(result.getExtensionsInPlatforms()).isEmpty();

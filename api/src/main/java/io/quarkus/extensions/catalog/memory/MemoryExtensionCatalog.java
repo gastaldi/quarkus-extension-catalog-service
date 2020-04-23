@@ -51,7 +51,9 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor, S
     }
 
     @Override
-    public LookupResult lookup(String quarkusCore, Collection<AppArtifactKey> extensions) {
+    public LookupResult lookup(LookupParameters parameters) {
+        String quarkusCore = parameters.getQuarkusCore();
+        Collection<AppArtifactKey> extensions = parameters.getExtensions();
         LookupResultBuilder builder = new LookupResultBuilder();
         List<Extension> extensionList = extensionsByCoreVersion.getOrDefault(quarkusCore, Collections.emptySet())
                 .stream()

@@ -25,20 +25,34 @@ public class RepositoryIndexer {
     public void index(Repository repository, IndexVisitor visitor) throws IOException {
         // Index Platforms
         for (Platform platform : repository.getPlatforms()) {
-            for (Release release : platform.getReleases()) {
-                QuarkusPlatformDescriptor descriptor = artifactResolver.resolvePlatform(platform, release);
+            if (platform.getReleases().isEmpty()) {
+                QuarkusPlatformDescriptor descriptor = artifactResolver.resolveLatestPlatform(platform);
                 if (descriptor != null) {
                     visitor.visitPlatform(descriptor);
+                }
+            } else {
+                for (Release release : platform.getReleases()) {
+                    QuarkusPlatformDescriptor descriptor = artifactResolver.resolvePlatform(platform, release);
+                    if (descriptor != null) {
+                        visitor.visitPlatform(descriptor);
+                    }
                 }
             }
         }
 
         // Index extensions
         for (Extension extension : repository.getIndividualExtensions()) {
-            for (Release release : extension.getReleases()) {
-                io.quarkus.dependencies.Extension ext = artifactResolver.resolveExtension(extension, release);
-                if (ext != null) {
-                    visitor.visitExtension(ext, release.getQuarkusCore());
+            if (extension.getReleases().isEmpty()) {
+//                io.quarkus.dependencies.Extension ext = artifactResolver.resolveLatestExtension(extension);
+//                if (ext != null) {
+//                    visitor.visitExtension(ext, ext.get);
+//                }
+            } else {
+                for (Release release : extension.getReleases()) {
+                    io.quarkus.dependencies.Extension ext = artifactResolver.resolveExtension(extension, release);
+                    if (ext != null) {
+                        visitor.visitExtension(ext, release.getQuarkusCore());
+                    }
                 }
             }
         }

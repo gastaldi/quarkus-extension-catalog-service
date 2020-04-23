@@ -2,7 +2,6 @@ package io.quarkus.extensions.catalog.memory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.bootstrap.model.AppArtifactKey;

@@ -1,14 +1,11 @@
 package io.quarkus.extensions.catalog.model;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class RepositoryTest {
 

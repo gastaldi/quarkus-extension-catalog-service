@@ -7,7 +7,7 @@ A repository is a local directory (which can be cloned from a Git repository) wi
 ```bash
 .
 ├── extensions
-│   └── jsf.yaml
+│   └── jsf.yjsonaml
 └── platforms.json
 ```
 

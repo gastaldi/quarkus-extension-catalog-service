@@ -12,22 +12,36 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
-import io.quarkus.extensions.catalog.ExtensionCatalog;
+import io.quarkus.extensions.catalog.ExtensionRegistry;
 import io.quarkus.extensions.catalog.LookupResultBuilder;
 import io.quarkus.extensions.catalog.spi.IndexVisitor;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
+import io.quarkus.platform.descriptor.loader.json.impl.QuarkusJsonPlatformDescriptor;
 
 import static java.util.stream.Collectors.toList;
 
 /**
  * Stores the indexed extension catalog in memory
  */
-public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor, Serializable {
+public class MemoryExtensionRegistry implements ExtensionRegistry, IndexVisitor, Serializable {
 
+    @JsonProperty("extensions")
     private final Map<String, Set<Extension>> extensionsByCoreVersion = new TreeMap<>();
+
+    @JsonProperty("platforms")
+    @JsonDeserialize(contentAs = QuarkusJsonPlatformDescriptor.class)
     private final Set<QuarkusPlatformDescriptor> platforms = new LinkedHashSet<>();
+
+    @Override
+    @JsonIgnore
+    public Set<String> getQuarkusCoreVersions() {
+        return Collections.unmodifiableSet(extensionsByCoreVersion.keySet());
+    }
 
     // findById methods
     @Override
@@ -37,11 +51,6 @@ public class MemoryExtensionCatalog implements ExtensionCatalog, IndexVisitor, S
                 .flatMap(Collection::stream)
                 .filter(ext -> ext.gav().equals(id))
                 .findFirst();
-    }
-
-    @Override
-    public Set<String> getQuarkusCoreVersions() {
-        return Collections.unmodifiableSet(extensionsByCoreVersion.keySet());
     }
 
     @Override

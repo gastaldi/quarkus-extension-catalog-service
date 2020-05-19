@@ -11,7 +11,7 @@ import io.quarkus.dependencies.Extension;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import org.immutables.value.Value;
 
-public interface ExtensionCatalog {
+public interface ExtensionRegistry {
 
     // Query methods
     Set<String> getQuarkusCoreVersions();

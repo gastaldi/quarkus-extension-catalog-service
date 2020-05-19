@@ -1,23 +1,26 @@
 package io.quarkus.extensions.catalog.memory;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.extensions.catalog.DefaultArtifactResolver;
-import io.quarkus.extensions.catalog.ExtensionCatalog;
+import io.quarkus.extensions.catalog.ExtensionRegistry;
 import io.quarkus.extensions.catalog.LookupParametersBuilder;
 import io.quarkus.extensions.catalog.RepositoryIndexer;
 import io.quarkus.extensions.catalog.model.Repository;
+import org.assertj.core.util.Files;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MemoryExtensionCatalogTest {
+class MemoryExtensionRegistryTest {
 
-    static MemoryExtensionCatalog catalog = new MemoryExtensionCatalog();
+    static MemoryExtensionRegistry catalog = new MemoryExtensionRegistry();
 
     @BeforeAll
     static void setUp() throws IOException {
@@ -39,7 +42,7 @@ class MemoryExtensionCatalogTest {
 
     @Test
     void shouldLookupPlatformForDependentExtensionInQuarkusFinal() {
-        ExtensionCatalog.LookupResult result = catalog.lookup(
+        ExtensionRegistry.LookupResult result = catalog.lookup(
                 new LookupParametersBuilder().quarkusCore("1.3.1.Final").addExtensions(
                         AppArtifactKey.fromString("io.quarkus:quarkus-resteasy"),
                         AppArtifactKey.fromString("io.quarkus:quarkus-jgit")
@@ -53,7 +56,7 @@ class MemoryExtensionCatalogTest {
 
     @Test
     void shouldLookupPlatformForDependentExtensionInQuarkusCR() {
-        ExtensionCatalog.LookupResult result = catalog.lookup(new LookupParametersBuilder().quarkusCore("1.4.0.CR1").addExtensions(
+        ExtensionRegistry.LookupResult result = catalog.lookup(new LookupParametersBuilder().quarkusCore("1.4.0.CR1").addExtensions(
                 AppArtifactKey.fromString("io.quarkus:quarkus-resteasy"),
                 AppArtifactKey.fromString("io.quarkus:quarkus-jgit")
         ).build());
@@ -64,7 +67,7 @@ class MemoryExtensionCatalogTest {
 
     @Test
     void shouldLookupNoPlatformForIndependentExtension() {
-        ExtensionCatalog.LookupResult result = catalog.lookup(
+        ExtensionRegistry.LookupResult result = catalog.lookup(
                 new LookupParametersBuilder().quarkusCore("1.3.1.Final").addExtensions(
                         AppArtifactKey.fromString("org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime")
                 ).build());
@@ -78,4 +81,14 @@ class MemoryExtensionCatalogTest {
                 .hasFieldOrPropertyWithValue("version", "2.3-next-M2");
     }
 
+    @Test
+    public void shouldDumpAndRestore() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        File file = Files.newTemporaryFile();
+        mapper.writeValue(file,  catalog);
+        assertThat(file).isNotEmpty();
+        MemoryExtensionRegistry restored = mapper.readValue(file, MemoryExtensionRegistry.class);
+        assertThat(restored.getQuarkusCoreVersions()).isEqualTo(catalog.getQuarkusCoreVersions());
+    }
 }

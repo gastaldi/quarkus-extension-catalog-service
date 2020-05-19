@@ -54,6 +54,13 @@
       <artifactId>jsr305</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!-- Used in JBang script -->
+    <dependency>
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli</artifactId>
+      <version>4.2.0</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>

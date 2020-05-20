@@ -12,15 +12,6 @@ import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
  */
 public interface ArtifactResolver {
     /**
-     * Resolve the latest and greatest version for this platform
-     */
-    QuarkusPlatformDescriptor resolveLatestPlatform(Platform platform) throws IOException;
-    /**
-     * Resolve the latest and greatest version for this extension
-     */
-    io.quarkus.dependencies.Extension resolveLatestExtension(Extension extension) throws IOException;
-
-    /**
      * Resolve this specific platform
      */
     QuarkusPlatformDescriptor resolvePlatform(Platform platform, Release release) throws IOException;

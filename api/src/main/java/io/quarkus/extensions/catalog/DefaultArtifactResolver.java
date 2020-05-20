@@ -33,16 +33,6 @@ public class DefaultArtifactResolver implements ArtifactResolver {
     }
 
     @Override
-    public QuarkusPlatformDescriptor resolveLatestPlatform(Platform platform) throws IOException {
-        return resolvePlatform(platform, new ReleaseBuilder().version("LATEST").build());
-    }
-
-    @Override
-    public io.quarkus.dependencies.Extension resolveLatestExtension(Extension extension) throws IOException {
-        return resolveExtension(extension, new ReleaseBuilder().version("LATEST").build());
-    }
-
-    @Override
     public QuarkusPlatformDescriptor resolvePlatform(Platform platform, Release release) throws IOException {
         // TODO: Use Maven API to resolve the JSON?
         URL url = getPlatformJSONURL(platform, release);

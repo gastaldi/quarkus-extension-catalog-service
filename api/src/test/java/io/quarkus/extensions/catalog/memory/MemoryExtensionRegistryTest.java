@@ -87,17 +87,11 @@ class MemoryExtensionRegistryTest {
     }
 
     @Test
-    public void shouldDumpAndRestore() throws Exception {
+    public void shouldSerializeAndDeserialize() throws Exception {
         File file = Files.newTemporaryFile();
-        try (ObjectOutputStream oos = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(file)))){
-            oos.writeObject(catalog);
-            oos.flush();
-        }
+        catalog.serialize(file.toPath());
         assertThat(file).isNotEmpty();
-        MemoryExtensionRegistry restored;
-        try (ObjectInputStream ois = new ObjectInputStream(new GZIPInputStream(new FileInputStream(file)))) {
-            restored = (MemoryExtensionRegistry) ois.readObject();
-        }
+        MemoryExtensionRegistry restored = MemoryExtensionRegistry.deserialize(file.toPath());
         assertThat(restored.getQuarkusCoreVersions()).isEqualTo(catalog.getQuarkusCoreVersions());
     }
 }

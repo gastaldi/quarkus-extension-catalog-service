@@ -1,10 +1,15 @@
 package io.quarkus.extensions.catalog.memory;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.file.Paths;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.extensions.catalog.DefaultArtifactResolver;
@@ -83,12 +88,16 @@ class MemoryExtensionRegistryTest {
 
     @Test
     public void shouldDumpAndRestore() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         File file = Files.newTemporaryFile();
-        mapper.writeValue(file,  catalog);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(file)))){
+            oos.writeObject(catalog);
+            oos.flush();
+        }
         assertThat(file).isNotEmpty();
-        MemoryExtensionRegistry restored = mapper.readValue(file, MemoryExtensionRegistry.class);
+        MemoryExtensionRegistry restored;
+        try (ObjectInputStream ois = new ObjectInputStream(new GZIPInputStream(new FileInputStream(file)))) {
+            restored = (MemoryExtensionRegistry) ois.readObject();
+        }
         assertThat(restored.getQuarkusCoreVersions()).isEqualTo(catalog.getQuarkusCoreVersions());
     }
 }

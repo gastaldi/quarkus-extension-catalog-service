@@ -91,11 +91,14 @@ public class MemoryExtensionRegistry implements ExtensionRegistry, IndexVisitor,
         String quarkusCore = platform.getQuarkusVersion();
         platforms.add(platform);
 
-        extensionsByCoreVersion.computeIfAbsent(quarkusCore, k -> new HashSet<>()).addAll(platform.getExtensions());
+        Set<Extension> extensions = extensionsByCoreVersion.computeIfAbsent(quarkusCore, k -> new HashSet<>());
+        platform.getExtensions().stream().filter(extension -> !extension.isUnlisted()).forEach(extensions::add);
     }
 
     @Override
     public void visitExtension(Extension descriptor, String quarkusCore) {
-        extensionsByCoreVersion.computeIfAbsent(quarkusCore, k -> new HashSet<>()).add(descriptor);
+        if (!descriptor.isUnlisted()) {
+            extensionsByCoreVersion.computeIfAbsent(quarkusCore, k -> new HashSet<>()).add(descriptor);
+        }
     }
 }

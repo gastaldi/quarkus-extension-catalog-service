@@ -22,4 +22,11 @@ public interface Extension {
 
     @Value.Auxiliary
     List<Release> getReleases();
+
+    @Value.Default
+    @JsonProperty("repository-url")
+    @Value.Auxiliary
+    default String getRepositoryURL() {
+        return "https://repo1.maven.org/maven2/";
+    }
 }

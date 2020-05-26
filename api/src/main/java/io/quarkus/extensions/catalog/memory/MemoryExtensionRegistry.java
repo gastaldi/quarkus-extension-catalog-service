@@ -1,13 +1,6 @@
 package io.quarkus.extensions.catalog.memory;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,19 +11,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.extensions.catalog.ExtensionRegistry;
 import io.quarkus.extensions.catalog.LookupResultBuilder;
 import io.quarkus.extensions.catalog.spi.IndexVisitor;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
-import io.quarkus.platform.descriptor.loader.json.impl.QuarkusJsonPlatformDescriptor;
 
 import static java.util.stream.Collectors.toList;
 
@@ -39,32 +26,13 @@ import static java.util.stream.Collectors.toList;
  */
 public class MemoryExtensionRegistry implements ExtensionRegistry, IndexVisitor, Serializable {
 
-    @JsonProperty("extensions")
     private final Map<String, Set<Extension>> extensionsByCoreVersion = new TreeMap<>();
 
-    @JsonProperty("platforms")
-    @JsonDeserialize(contentAs = QuarkusJsonPlatformDescriptor.class)
     private final Set<QuarkusPlatformDescriptor> platforms = new LinkedHashSet<>();
 
     @Override
-    @JsonIgnore
     public Set<String> getQuarkusCoreVersions() {
         return Collections.unmodifiableSet(extensionsByCoreVersion.keySet());
-    }
-
-    public static MemoryExtensionRegistry deserialize(Path file) throws IOException {
-        try (ObjectInputStream ois = new ObjectInputStream(new GZIPInputStream(Files.newInputStream(file)))) {
-            return (MemoryExtensionRegistry) ois.readObject();
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("Could not find required classes", e);
-        }
-    }
-
-    public void serialize(Path file) throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new GZIPOutputStream(Files.newOutputStream(file)))){
-            oos.writeObject(this);
-            oos.flush();
-        }
     }
 
     // findById methods

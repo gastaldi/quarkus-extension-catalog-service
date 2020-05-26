@@ -85,13 +85,4 @@ class MemoryExtensionRegistryTest {
                 .hasFieldOrPropertyWithValue("artifactId", "myfaces-quarkus-runtime")
                 .hasFieldOrPropertyWithValue("version", "2.3-next-M2");
     }
-
-    @Test
-    public void shouldSerializeAndDeserialize() throws Exception {
-        File file = Files.newTemporaryFile();
-        catalog.serialize(file.toPath());
-        assertThat(file).isNotEmpty();
-        MemoryExtensionRegistry restored = MemoryExtensionRegistry.deserialize(file.toPath());
-        assertThat(restored.getQuarkusCoreVersions()).isEqualTo(catalog.getQuarkusCoreVersions());
-    }
 }

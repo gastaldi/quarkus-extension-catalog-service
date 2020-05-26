@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.text.MessageFormat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +13,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.quarkus.extensions.catalog.model.Extension;
 import io.quarkus.extensions.catalog.model.Platform;
 import io.quarkus.extensions.catalog.model.Release;
-import io.quarkus.extensions.catalog.model.ReleaseBuilder;
 import io.quarkus.extensions.catalog.spi.ArtifactResolver;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import io.quarkus.platform.descriptor.loader.json.impl.QuarkusJsonPlatformDescriptor;
@@ -52,7 +50,8 @@ public class DefaultArtifactResolver implements ArtifactResolver {
 
     static URL getPlatformJSONURL(Platform platform, Release release) {
         try {
-            return new URL(MessageFormat.format("https://repo1.maven.org/maven2/{0}/{1}/{2}/{1}-{2}.json",
+            return new URL(MessageFormat.format("{0}{1}/{2}/{3}/{2}-{3}.json",
+                                                platform.getRepositoryURL(),
                                                 platform.getGroupIdJson().replace('.', '/'),
                                                 platform.getArtifactIdJson(),
                                                 release.getVersion()));
@@ -63,7 +62,8 @@ public class DefaultArtifactResolver implements ArtifactResolver {
 
     static URL getExtensionJarURL(Extension extension, Release release) {
         try {
-            return new URL(MessageFormat.format("jar:https://repo1.maven.org/maven2/{0}/{1}/{2}/{1}-{2}.jar!/META-INF/quarkus-extension.yaml",
+            return new URL(MessageFormat.format("jar:{0}{1}/{2}/{3}/{2}-{3}.jar!/META-INF/quarkus-extension.yaml",
+                                                extension.getRepositoryURL(),
                                                 extension.getGroupId().replace('.', '/'),
                                                 extension.getArtifactId(),
                                                 release.getVersion()));

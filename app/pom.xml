@@ -6,6 +6,10 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
+  <properties>
+    <maven.install.skip>true</maven.install.skip>
+    <maven.deploy.skip>true</maven.deploy.skip>
+  </properties>
 
   <artifactId>quarkus-extension-catalog</artifactId>
   <dependencies>

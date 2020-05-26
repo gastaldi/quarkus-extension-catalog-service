@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.Objects;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -21,6 +22,7 @@ public class DefaultArtifactResolver implements ArtifactResolver {
 
     private final ObjectReader jsonReader;
     private final ObjectReader yamlReader;
+    private static final String MAVEN_CENTRAL = "https://repo1.maven.org/maven2/";
 
     public DefaultArtifactResolver(ObjectMapper mapper) {
         this.jsonReader = mapper.reader()
@@ -51,7 +53,7 @@ public class DefaultArtifactResolver implements ArtifactResolver {
     static URL getPlatformJSONURL(Platform platform, Release release) {
         try {
             return new URL(MessageFormat.format("{0}{1}/{2}/{3}/{2}-{3}.json",
-                                                release.getRepositoryURL(),
+                                                Objects.toString(release.getRepositoryURL(), MAVEN_CENTRAL),
                                                 platform.getGroupIdJson().replace('.', '/'),
                                                 platform.getArtifactIdJson(),
                                                 release.getVersion()));
@@ -63,7 +65,7 @@ public class DefaultArtifactResolver implements ArtifactResolver {
     static URL getExtensionJarURL(Extension extension, Release release) {
         try {
             return new URL(MessageFormat.format("jar:{0}{1}/{2}/{3}/{2}-{3}.jar!/META-INF/quarkus-extension.yaml",
-                                                release.getRepositoryURL(),
+                                                Objects.toString(release.getRepositoryURL(), MAVEN_CENTRAL),
                                                 extension.getGroupId().replace('.', '/'),
                                                 extension.getArtifactId(),
                                                 release.getVersion()));

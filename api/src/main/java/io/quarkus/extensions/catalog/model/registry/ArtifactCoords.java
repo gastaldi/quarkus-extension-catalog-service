@@ -1,19 +1,14 @@
 package io.quarkus.extensions.catalog.model.registry;
 
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import io.quarkus.extensions.catalog.model.Release;
 import org.immutables.value.Value;
 
 @Value.Immutable
-@JsonDeserialize(builder = PlatformBuilder.class)
-public interface Platform {
-
+@JsonDeserialize(builder = ArtifactCoordsBuilder.class)
+public interface ArtifactCoords {
     @JsonUnwrapped
     ArtifactKey getKey();
 
-    @Value.Auxiliary
-    Set<Release> getReleases();
+    String getVersion();
 }

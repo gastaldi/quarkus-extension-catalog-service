@@ -16,10 +16,8 @@ public interface Release {
     @JsonProperty("quarkus-core")
     String getQuarkusCore();
 
-    @Value.Default
     @JsonProperty("repository-url")
     @Value.Auxiliary
-    default String getRepositoryURL() {
-        return "https://repo1.maven.org/maven2/";
-    }
+    @Nullable
+    String getRepositoryURL();
 }

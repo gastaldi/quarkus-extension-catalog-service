@@ -51,7 +51,7 @@ public class DefaultArtifactResolver implements ArtifactResolver {
     static URL getPlatformJSONURL(Platform platform, Release release) {
         try {
             return new URL(MessageFormat.format("{0}{1}/{2}/{3}/{2}-{3}.json",
-                                                platform.getRepositoryURL(),
+                                                release.getRepositoryURL(),
                                                 platform.getGroupIdJson().replace('.', '/'),
                                                 platform.getArtifactIdJson(),
                                                 release.getVersion()));
@@ -63,7 +63,7 @@ public class DefaultArtifactResolver implements ArtifactResolver {
     static URL getExtensionJarURL(Extension extension, Release release) {
         try {
             return new URL(MessageFormat.format("jar:{0}{1}/{2}/{3}/{2}-{3}.jar!/META-INF/quarkus-extension.yaml",
-                                                extension.getRepositoryURL(),
+                                                release.getRepositoryURL(),
                                                 extension.getGroupId().replace('.', '/'),
                                                 extension.getArtifactId(),
                                                 release.getVersion()));

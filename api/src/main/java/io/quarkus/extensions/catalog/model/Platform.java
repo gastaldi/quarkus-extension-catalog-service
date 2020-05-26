@@ -36,11 +36,4 @@ public interface Platform {
 
     @Value.Auxiliary
     List<Release> getReleases();
-
-    @Value.Default
-    @JsonProperty("repository-url")
-    @Value.Auxiliary
-    default String getRepositoryURL() {
-        return "https://repo1.maven.org/maven2/";
-    }
 }

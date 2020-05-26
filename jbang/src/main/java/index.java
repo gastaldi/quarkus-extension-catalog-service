@@ -5,6 +5,7 @@
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.extensions.catalog.DefaultArtifactResolver;
 import io.quarkus.extensions.catalog.RepositoryIndexer;
@@ -32,6 +33,7 @@ class index implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         Repository repository = Repository.parse(repositoryPath, mapper);
         RepositoryIndexer indexer = new RepositoryIndexer(new DefaultArtifactResolver(mapper));
         FileIndexVisitor visitor = new FileIndexVisitor(outputDirectory, mapper);

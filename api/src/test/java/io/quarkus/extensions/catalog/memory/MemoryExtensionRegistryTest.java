@@ -1,14 +1,7 @@
 package io.quarkus.extensions.catalog.memory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.file.Paths;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.bootstrap.model.AppArtifactKey;
@@ -17,7 +10,6 @@ import io.quarkus.extensions.catalog.ExtensionRegistry;
 import io.quarkus.extensions.catalog.LookupParametersBuilder;
 import io.quarkus.extensions.catalog.RepositoryIndexer;
 import io.quarkus.extensions.catalog.model.Repository;
-import org.assertj.core.util.Files;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +24,7 @@ class MemoryExtensionRegistryTest {
         ObjectMapper mapper = new ObjectMapper();
         Repository repository = Repository.parse(Paths.get("src/test/resources/repository"), mapper);
         RepositoryIndexer indexer = new RepositoryIndexer(new DefaultArtifactResolver(mapper));
-        indexer.index(repository, catalog);
+        indexer.index(repository, MemoryExtensionRegistryTest.catalog);
     }
 
     @Test

@@ -3,10 +3,10 @@ package io.quarkus.extensions.catalog;
 import java.io.IOException;
 import java.util.Objects;
 
+import io.quarkus.extensions.catalog.model.Repository;
 import io.quarkus.extensions.catalog.model.Extension;
 import io.quarkus.extensions.catalog.model.Platform;
 import io.quarkus.extensions.catalog.model.Release;
-import io.quarkus.extensions.catalog.model.Repository;
 import io.quarkus.extensions.catalog.spi.ArtifactResolver;
 import io.quarkus.extensions.catalog.spi.IndexVisitor;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;

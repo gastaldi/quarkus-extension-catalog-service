@@ -1,15 +1,17 @@
 //usr/bin/env jbang "$0" "$@" ; exit $?
 //DEPS info.picocli:picocli:4.2.0
-//DEPS io.quarkus.extensions:quarkus-extension-catalog-api:1.0.0.Alpha6
+//DEPS io.quarkus.extensions:quarkus-extension-catalog-api:1.0.0.Alpha7
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.concurrent.Callable;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.quarkus.extensions.catalog.DefaultArtifactResolver;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import io.quarkus.extensions.catalog.RepositoryIndexer;
-import io.quarkus.extensions.catalog.file.FileIndexVisitor;
+import io.quarkus.extensions.catalog.DefaultArtifactResolver;
+import io.quarkus.extensions.catalog.memory.RegistryBuilder;
 import io.quarkus.extensions.catalog.model.Repository;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -22,8 +24,8 @@ class index implements Callable<Integer> {
     @Parameters(index = "0", description = "The repository path to index")
     private Path repositoryPath;
 
-    @Parameters(index = "1", description = "The output directory")
-    private Path outputDirectory;
+    @Parameters(index = "1", description = "The output file")
+    private File outputFile;
 
     public static void main(String... args) {
         int exitCode = new CommandLine(new index()).execute(args);
@@ -32,12 +34,14 @@ class index implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        ObjectMapper mapper = new ObjectMapper()
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                .setPropertyNamingStrategy(PropertyNamingStrategy.KEBAB_CASE);
         Repository repository = Repository.parse(repositoryPath, mapper);
         RepositoryIndexer indexer = new RepositoryIndexer(new DefaultArtifactResolver(mapper));
-        FileIndexVisitor visitor = new FileIndexVisitor(outputDirectory, mapper);
-        indexer.index(repository, visitor);
+        RegistryBuilder builder = new RegistryBuilder();
+        indexer.index(repository, builder);
+        mapper.writeValue(outputFile, builder.build());
         return 0;
     }
 }

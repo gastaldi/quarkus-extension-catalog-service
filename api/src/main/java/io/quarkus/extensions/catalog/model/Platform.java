@@ -5,12 +5,11 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value;
-import org.immutables.value.Value.Immutable;
 
 /**
- * A {@link Platform} holds a set of extensions
+ * A {@link io.quarkus.extensions.catalog.model.Platform} holds a set of extensions
  */
-@Immutable
+@Value.Immutable
 @JsonDeserialize(builder = PlatformBuilder.class)
 public interface Platform {
 

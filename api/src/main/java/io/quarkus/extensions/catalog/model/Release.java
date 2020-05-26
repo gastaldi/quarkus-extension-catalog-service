@@ -5,9 +5,8 @@ import javax.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value;
-import org.immutables.value.Value.Immutable;
 
-@Immutable
+@Value.Immutable
 @JsonDeserialize(builder = ReleaseBuilder.class)
 public interface Release {
 
@@ -23,5 +22,4 @@ public interface Release {
     default String getRepositoryURL() {
         return "https://repo1.maven.org/maven2/";
     }
-
 }

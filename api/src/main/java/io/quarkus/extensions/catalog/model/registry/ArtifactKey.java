@@ -7,6 +7,6 @@ import org.immutables.value.Value;
 @Value.Immutable
 @JsonDeserialize(builder = ArtifactKeyBuilder.class)
 public interface ArtifactKey {
-    @JsonProperty("coords")
+    @JsonProperty("id")
     String getGroupArtifactId();
 }

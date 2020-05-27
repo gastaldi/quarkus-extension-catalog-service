@@ -33,9 +33,9 @@ class RegistryBuilderTest {
         assertThat(registry.getCategories()).isNotEmpty();
         assertThat(registry.getExtensions()).isNotEmpty();
         assertThat(registry.getPlatforms()).isNotEmpty();
-        ObjectMapper mapper = new ObjectMapper()
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                .setPropertyNamingStrategy(PropertyNamingStrategy.KEBAB_CASE);
-        mapper.writeValue(System.out, registry);
+//        ObjectMapper mapper = new ObjectMapper()
+//                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+//                .setPropertyNamingStrategy(PropertyNamingStrategy.KEBAB_CASE);
+//        mapper.writeValue(System.out, registry);
     }
 }

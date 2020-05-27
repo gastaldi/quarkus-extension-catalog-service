@@ -8,7 +8,7 @@ import org.immutables.value.Value;
 @JsonDeserialize(builder = ArtifactCoordsBuilder.class)
 public interface ArtifactCoords {
     @JsonUnwrapped
-    ArtifactKey getKey();
+    ArtifactKey getId();
 
     String getVersion();
 }

@@ -16,7 +16,7 @@ import org.immutables.value.Value;
 @JsonDeserialize(builder = ExtensionBuilder.class)
 public interface Extension {
     @JsonUnwrapped
-    ArtifactKey getKey();
+    ArtifactKey getId();
 
     @Value.Auxiliary
     String getName();

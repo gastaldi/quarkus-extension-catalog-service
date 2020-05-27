@@ -12,7 +12,7 @@ import org.immutables.value.Value;
 public interface Platform {
 
     @JsonUnwrapped
-    ArtifactKey getKey();
+    ArtifactKey getId();
 
     @Value.Auxiliary
     Set<Release> getReleases();

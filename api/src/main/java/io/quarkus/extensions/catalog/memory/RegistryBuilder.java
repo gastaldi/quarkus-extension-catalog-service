@@ -35,12 +35,12 @@ public class RegistryBuilder implements IndexVisitor {
                 .build();
 
         PlatformBuilder platformBuilder = platforms.computeIfAbsent(platformKey, key ->
-                new PlatformBuilder().key(key));
+                new PlatformBuilder().id(key));
 
         platformBuilder.addReleases(new ReleaseBuilder().version(platform.getBomVersion())
                                             .quarkusCore(platform.getQuarkusVersion())
                                             .build());
-        ArtifactCoords platformCoords = new ArtifactCoordsBuilder().key(platformKey)
+        ArtifactCoords platformCoords = new ArtifactCoordsBuilder().id(platformKey)
                 .version(platform.getBomVersion()).build();
 
         for (Extension extension : platform.getExtensions()) {
@@ -63,7 +63,7 @@ public class RegistryBuilder implements IndexVisitor {
                 .build();
         ExtensionBuilder extensionBuilder = extensions.computeIfAbsent(extensionKey, key ->
                 new ExtensionBuilder()
-                        .key(key)
+                        .id(key)
                         .name(Objects.toString(extension.getName(), extension.getArtifactId()))
                         .description(extension.getDescription())
                         .metadata(extension.getMetadata())

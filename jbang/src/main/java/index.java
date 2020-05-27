@@ -1,6 +1,6 @@
 //usr/bin/env jbang "$0" "$@" ; exit $?
 //DEPS info.picocli:picocli:4.2.0
-//DEPS io.quarkus.extensions:quarkus-extension-catalog-api:1.0.0.Alpha10
+//DEPS io.quarkus.extensions:quarkus-extension-catalog-api:1.0.0.Alpha11
 
 import java.io.File;
 import java.nio.file.Path;

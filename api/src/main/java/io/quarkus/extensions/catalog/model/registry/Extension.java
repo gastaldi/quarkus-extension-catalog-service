@@ -3,6 +3,7 @@ package io.quarkus.extensions.catalog.model.registry;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 import javax.annotation.Nullable;
 
@@ -28,8 +29,9 @@ public interface Extension {
     Map<String, Object> getMetadata();
 
     @Value.Auxiliary
-    List<Release> getReleases();
+    @Value.ReverseOrder
+    SortedSet<Release> getReleases();
 
     @Value.Auxiliary
-    Set<ArtifactCoords> getPlatforms();
+    List<ArtifactCoords> getPlatforms();
 }

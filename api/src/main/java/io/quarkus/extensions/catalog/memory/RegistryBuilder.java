@@ -4,8 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import io.quarkus.bootstrap.model.AppArtifactCoords;
-import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.extensions.catalog.model.ReleaseBuilder;
 import io.quarkus.extensions.catalog.model.registry.ArtifactCoords;
@@ -30,7 +28,7 @@ public class RegistryBuilder implements IndexVisitor {
 
     @Override
     public void visitPlatform(QuarkusPlatformDescriptor platform) {
-
+        registryBuilder.addVersions(platform.getQuarkusVersion());
         registryBuilder.addAllCategories(platform.getCategories());
 
         ArtifactKey platformKey = new ArtifactKeyBuilder().groupArtifactId(platform.getBomGroupId() + ":" + platform.getBomArtifactId())
@@ -60,6 +58,7 @@ public class RegistryBuilder implements IndexVisitor {
         if (extension.isUnlisted()) {
             return;
         }
+        registryBuilder.addVersions(quarkusCore);
         ArtifactKey extensionKey = new ArtifactKeyBuilder().groupArtifactId(extension.getGroupId() + ":" + extension.getArtifactId())
                 .build();
         ExtensionBuilder extensionBuilder = extensions.computeIfAbsent(extensionKey, key ->

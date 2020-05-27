@@ -41,6 +41,8 @@ class index implements Callable<Integer> {
         RepositoryIndexer indexer = new RepositoryIndexer(new DefaultArtifactResolver(mapper));
         RegistryBuilder builder = new RegistryBuilder();
         indexer.index(repository, builder);
+        // Make sure the parent directory exists
+        outputFile.getParentFile().mkdirs();
         mapper.writeValue(outputFile, builder.build());
         return 0;
     }

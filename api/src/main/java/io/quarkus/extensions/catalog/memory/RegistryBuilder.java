@@ -33,8 +33,8 @@ public class RegistryBuilder implements IndexVisitor {
 
         registryBuilder.addAllCategories(platform.getCategories());
 
-        ArtifactKey platformKey = new ArtifactKeyBuilder().groupId(platform.getBomGroupId())
-                .artifactId(platform.getBomArtifactId()).build();
+        ArtifactKey platformKey = new ArtifactKeyBuilder().groupArtifactId(platform.getBomGroupId() + ":" + platform.getBomArtifactId())
+                .build();
 
         PlatformBuilder platformBuilder = platforms.computeIfAbsent(platformKey, key ->
                 new PlatformBuilder().key(key));
@@ -60,8 +60,7 @@ public class RegistryBuilder implements IndexVisitor {
         if (extension.isUnlisted()) {
             return;
         }
-        ArtifactKey extensionKey = new ArtifactKeyBuilder().groupId(extension.getGroupId())
-                .artifactId(extension.getArtifactId())
+        ArtifactKey extensionKey = new ArtifactKeyBuilder().groupArtifactId(extension.getGroupId() + ":" + extension.getArtifactId())
                 .build();
         ExtensionBuilder extensionBuilder = extensions.computeIfAbsent(extensionKey, key ->
                 new ExtensionBuilder()

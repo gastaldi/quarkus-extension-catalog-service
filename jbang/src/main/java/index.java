@@ -42,7 +42,10 @@ class index implements Callable<Integer> {
         RegistryBuilder builder = new RegistryBuilder();
         indexer.index(repository, builder);
         // Make sure the parent directory exists
-        outputFile.getAbsoluteFile().getParentFile().mkdirs();
+        File parentFile = outputFile.getAbsoluteFile().getParentFile();
+        if (parentFile != null) {
+            parentFile.mkdirs();
+        }
         mapper.writeValue(outputFile, builder.build());
         return 0;
     }

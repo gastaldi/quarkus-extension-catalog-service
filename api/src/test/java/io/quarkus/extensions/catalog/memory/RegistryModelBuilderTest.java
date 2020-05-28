@@ -3,9 +3,7 @@ package io.quarkus.extensions.catalog.memory;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import io.quarkus.extensions.catalog.DefaultArtifactResolver;
 import io.quarkus.extensions.catalog.RepositoryIndexer;
 import io.quarkus.extensions.catalog.model.Repository;
@@ -15,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RegistryBuilderTest {
+class RegistryModelBuilderTest {
 
     static Registry registry;
     @BeforeAll
@@ -23,7 +21,7 @@ class RegistryBuilderTest {
         ObjectMapper mapper = new ObjectMapper();
         Repository repository = Repository.parse(Paths.get("src/test/resources/repository"), mapper);
         RepositoryIndexer indexer = new RepositoryIndexer(new DefaultArtifactResolver(mapper));
-        RegistryBuilder builder = new RegistryBuilder();
+        RegistryModelBuilder builder = new RegistryModelBuilder();
         indexer.index(repository, builder);
         registry = builder.build();
     }

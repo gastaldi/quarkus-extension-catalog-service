@@ -13,18 +13,16 @@ import io.quarkus.extensions.catalog.model.registry.ArtifactKeyBuilder;
 import io.quarkus.extensions.catalog.model.registry.ExtensionBuilder;
 import io.quarkus.extensions.catalog.model.registry.PlatformBuilder;
 import io.quarkus.extensions.catalog.model.registry.Registry;
+import io.quarkus.extensions.catalog.model.registry.RegistryBuilder;
 import io.quarkus.extensions.catalog.spi.IndexVisitor;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 
-public class RegistryBuilder implements IndexVisitor {
+public class RegistryModelBuilder implements IndexVisitor {
 
-    private final Map<ArtifactKey, io.quarkus.extensions.catalog.model.registry.PlatformBuilder> platforms =
-            new LinkedHashMap<>();
-
+    private final Map<ArtifactKey, PlatformBuilder> platforms = new LinkedHashMap<>();
     private final Map<ArtifactKey, ExtensionBuilder> extensions = new LinkedHashMap<>();
 
-    io.quarkus.extensions.catalog.model.registry.RegistryBuilder registryBuilder =
-            new io.quarkus.extensions.catalog.model.registry.RegistryBuilder();
+    RegistryBuilder registryBuilder = new RegistryBuilder();
 
     @Override
     public void visitPlatform(QuarkusPlatformDescriptor platform) {

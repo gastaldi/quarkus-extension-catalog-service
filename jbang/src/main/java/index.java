@@ -1,6 +1,6 @@
 //usr/bin/env jbang "$0" "$@" ; exit $?
 //DEPS info.picocli:picocli:4.2.0
-//DEPS io.quarkus.extensions:quarkus-extension-catalog-api:1.0.0.Alpha12
+//DEPS io.quarkus.extensions:quarkus-extension-catalog-api:1.0.0.Alpha13
 
 import java.io.File;
 import java.nio.file.Path;
@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import io.quarkus.extensions.catalog.RepositoryIndexer;
 import io.quarkus.extensions.catalog.DefaultArtifactResolver;
-import io.quarkus.extensions.catalog.memory.RegistryBuilder;
+import io.quarkus.extensions.catalog.memory.RegistryModelBuilder;
 import io.quarkus.extensions.catalog.model.Repository;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -39,7 +39,7 @@ class index implements Callable<Integer> {
                 .setPropertyNamingStrategy(PropertyNamingStrategy.KEBAB_CASE);
         Repository repository = Repository.parse(repositoryPath, mapper);
         RepositoryIndexer indexer = new RepositoryIndexer(new DefaultArtifactResolver(mapper));
-        RegistryBuilder builder = new RegistryBuilder();
+        RegistryModelBuilder builder = new RegistryModelBuilder();
         indexer.index(repository, builder);
         // Make sure the parent directory exists
         File parentFile = outputFile.getAbsoluteFile().getParentFile();

@@ -1,17 +1,10 @@
 package io.quarkus.extensions.catalog.app;
 
-import javax.inject.Inject;
-
 import io.quarkus.test.junit.QuarkusTest;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
 public class RegistryResourceTest {
-
-    @Inject
-    @RestClient
-    GithubClient client;
 
     @Test
     public void testHelloEndpoint() {

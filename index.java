@@ -1,6 +1,6 @@
 //usr/bin/env jbang "$0" "$@" ; exit $?
 //DEPS info.picocli:picocli:4.2.0
-//DEPS https://github.com/quarkusio/quarkus-registry-descriptor
+//DEPS io.quarkus:quarkus-registry-descriptor:1.0.0.Beta1
 
 import java.io.File;
 import java.nio.file.Path;
@@ -9,10 +9,10 @@ import java.util.concurrent.Callable;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import io.quarkus.extensions.catalog.RepositoryIndexer;
-import io.quarkus.extensions.catalog.DefaultArtifactResolver;
-import io.quarkus.extensions.catalog.memory.RegistryModelBuilder;
-import io.quarkus.extensions.catalog.model.Repository;
+import io.quarkus.registry.RepositoryIndexer;
+import io.quarkus.registry.DefaultArtifactResolver;
+import io.quarkus.registry.memory.RegistryModelBuilder;
+import io.quarkus.registry.catalog.model.Repository;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;

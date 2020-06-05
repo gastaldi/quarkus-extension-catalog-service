@@ -137,9 +137,9 @@
 
   </build>
   <scm>
-    <url>https://github.com/quarkusio/quarkus-extension-catalog-service</url>
-    <connection>scm:git:git@github.com:quarkusio/quarkus-extension-catalog-service.git</connection>
-    <developerConnection>scm:git:git@github.com:quarkusio/quarkus-extension-catalog-service.git</developerConnection>
+    <url>https://github.com/quarkusio/quarkus-registry-descriptor</url>
+    <connection>scm:git:git@github.com:quarkusio/quarkus-registry-descriptor.git</connection>
+    <developerConnection>scm:git:git@github.com:quarkusio/quarkus-registry-descriptor.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 

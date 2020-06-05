@@ -1,6 +1,6 @@
 //usr/bin/env jbang "$0" "$@" ; exit $?
 //DEPS info.picocli:picocli:4.2.0
-//DEPS https://github.com/quarkus/quarkus-registry-descriptor
+//DEPS https://github.com/quarkusio/quarkus-registry-descriptor
 
 import java.io.File;
 import java.nio.file.Path;

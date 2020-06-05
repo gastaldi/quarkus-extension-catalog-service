@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.quarkus</groupId>
   <artifactId>quarkus-registry-descriptor</artifactId>
-  <version>1.0.0.Beta1</version>
+  <version>1.0.0-SNAPSHOT</version>
   <properties>
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
@@ -140,7 +140,7 @@
     <url>https://github.com/quarkusio/quarkus-registry-descriptor</url>
     <connection>scm:git:git@github.com:quarkusio/quarkus-registry-descriptor.git</connection>
     <developerConnection>scm:git:git@github.com:quarkusio/quarkus-registry-descriptor.git</developerConnection>
-    <tag>1.0.0.Beta1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>

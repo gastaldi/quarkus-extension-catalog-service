@@ -1,7 +1,9 @@
-# Quarkus Extension Catalog service
+# Quarkus Registry Descriptor
 
-This project provides a model and a parser API to handle Quarkus extension repositories.
+This project provides a model and a parser API to handle the Quarkus extension registry.
 
+## Definitions
+### Repository
 A repository is a local directory (which can be cloned from a Git repository) with the following structure: 
 
 ```bash
@@ -11,7 +13,7 @@ A repository is a local directory (which can be cloned from a Git repository) wi
 └── platforms.json
 ```
 
-## Extensions
+### Extensions
 For maintenance purposes, each extension is declared in its own file and has the following structure:
 
 ```json
@@ -34,7 +36,7 @@ For maintenance purposes, each extension is declared in its own file and has the
 The Quarkus extension MUST be released to a Maven repository. The descriptor states the GAV and the Quarkus version for each release (which is listed here for performance purposes - if not specified, the parser will attempt to resolve using the Maven Resolver API)
 
 
-## Platforms 
+### Platforms 
 
 Platforms are a set of extensions of a specific version and MUST exist as a BOM. Since the order is important, it is declared as a single JSON (ordered by priority - the preferred BOMs in the top)
 
@@ -71,7 +73,7 @@ Platforms are a set of extensions of a specific version and MUST exist as a BOM.
 ]
 ```
 
-The idea is to provide an utility that would allow to perform all sorts of queries across the repository, such as:
+The idea is to provide an utility that would allow to perform all sorts of queries across the registry, such as:
 
 * which Quarkus Core versions are available;
 * which platforms are available;

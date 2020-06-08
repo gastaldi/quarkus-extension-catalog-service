@@ -2,6 +2,7 @@ package io.quarkus.registry.memory;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import io.quarkus.dependencies.Extension;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
@@ -61,7 +62,9 @@ public class RegistryModelBuilder implements IndexVisitor {
         ExtensionBuilder extensionBuilder = extensions.computeIfAbsent(extensionKey, key ->
                 new ExtensionBuilder()
                         .id(key)
-                        .extension(extension)
+                        .name(Objects.toString(extension.getName(), extension.getArtifactId()))
+                        .description(extension.getDescription())
+                        .metadata(extension.getMetadata())
         );
         extensionBuilder.addReleases(new ReleaseBuilder().version(extension.getVersion())
                                              .quarkusCore(quarkusCore)

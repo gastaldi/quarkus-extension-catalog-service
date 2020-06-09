@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import io.quarkus.bootstrap.model.AppArtifactCoords;
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
@@ -19,7 +20,7 @@ public interface ExtensionRegistry {
     Set<Extension> getExtensionsByCoreVersion(String version);
 
     // findById methods
-    Optional<Extension> findByExtensionId(String id);
+    Optional<Extension> findByExtensionId(AppArtifactCoords id);
 
     /**
      * Return the set of extensions for a given query

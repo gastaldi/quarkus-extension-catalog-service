@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
+import io.quarkus.bootstrap.model.AppArtifactCoords;
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
@@ -40,11 +41,12 @@ public class CatalogExtensionRegistry implements ExtensionRegistry, IndexVisitor
 
     // findById methods
     @Override
-    public Optional<Extension> findByExtensionId(String id) {
+    public Optional<Extension> findByExtensionId(AppArtifactCoords id) {
+        String key = String.format("%s:%s:%s", id.getGroupId(), id.getArtifactId(), id.getVersion());
         return extensionsByCoreVersion.values()
                 .stream()
                 .flatMap(Collection::stream)
-                .filter(ext -> ext.gav().equals(id))
+                .filter(ext -> ext.gav().equals(key))
                 .findFirst();
     }
 

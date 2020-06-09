@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.quarkus.bootstrap.model.AppArtifactCoords;
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.registry.DefaultArtifactResolver;
 import io.quarkus.registry.ExtensionRegistry;
@@ -34,7 +35,7 @@ class CatalogExtensionRegistryTest {
 
     @Test
     void shouldReturnIndividualExtension() {
-        assertThat(catalog.findByExtensionId("org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime:2.3-next-M2")).isNotEmpty();
+        assertThat(catalog.findByExtensionId(AppArtifactCoords.fromString("org.apache.myfaces.core.extensions.quarkus:myfaces-quarkus-runtime:2.3-next-M2"))).isNotEmpty();
     }
 
     @Test

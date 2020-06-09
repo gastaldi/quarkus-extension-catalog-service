@@ -1,13 +1,12 @@
 package io.quarkus.registry.memory;
 
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.regex.Pattern;
 
+import io.quarkus.bootstrap.model.AppArtifactCoords;
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.registry.ExtensionRegistry;
@@ -37,7 +36,7 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
         for (io.quarkus.registry.model.Extension ext : registry.getExtensions()) {
             for (Release release : ext.getReleases()) {
                 if (version.equals(release.getQuarkusCore())) {
-                    result.add(toQuarkusExtension(ext, release));
+                    result.add(toQuarkusExtension(ext, release.getVersion()));
                 }
             }
         }
@@ -45,8 +44,13 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
     }
 
     @Override
-    public Optional<Extension> findByExtensionId(String id) {
-        return Optional.empty();
+    public Optional<Extension> findByExtensionId(AppArtifactCoords id) {
+        return registry.getExtensions().stream()
+                .filter(extension -> extension.getId().equals(id.getKey()))
+                .filter(extension -> extension.getReleases().stream()
+                        .anyMatch(release -> release.getVersion().equals(id.getVersion())))
+                .map(extension -> toQuarkusExtension(extension, id.getVersion()))
+                .findFirst();
     }
 
     @Override
@@ -59,7 +63,7 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
                     .filter(release -> quarkusCore.equals(release.getQuarkusCore()))
                     .findFirst().ifPresent(release -> {
                         if (searchPattern.matcher(extension.getName()).matches()) {
-                            result.add(toQuarkusExtension(extension, release));
+                            result.add(toQuarkusExtension(extension, release.getVersion()));
                         }
             });
         }
@@ -72,15 +76,16 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
         return null;
     }
 
-    private Extension toQuarkusExtension(io.quarkus.registry.model.Extension ext, Release release) {
+    private Extension toQuarkusExtension(io.quarkus.registry.model.Extension ext, String release) {
         AppArtifactKey id = ext.getId();
         return new Extension()
                 .setGroupId(id.getGroupId())
                 .setArtifactId(id.getArtifactId())
-                .setVersion(release.getVersion())
+                .setVersion(release)
                 .setName(ext.getName())
                 .setDescription(ext.getDescription())
                 .setMetadata(ext.getMetadata());
     }
+
 
 }

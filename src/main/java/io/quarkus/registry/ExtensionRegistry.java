@@ -22,11 +22,29 @@ public interface ExtensionRegistry {
     Optional<Extension> findByExtensionId(String id);
 
     /**
+     * Return the set of extensions for a given query
+     *
+     * @param quarkusCore the quarkus core this extension supports
+     * @param keyword the keyword to search
+     * @return a set of {@link Extension} objects or an empty set if not found
+     */
+    Set<Extension> list(String quarkusCore, String keyword);
+
+    /**
      * The extensions and platforms to be added to the build descriptor
      * @param lookupParameters the parameters to be used when searching for extensions
      * @return a {@link LookupResult}
      */
     LookupResult lookup(LookupParameters lookupParameters);
+
+    @Value.Immutable
+    interface LookupParameters {
+
+        @Nullable
+        String getQuarkusCore();
+
+        List<AppArtifactKey> getExtensions();
+    }
 
     @Value.Immutable
     interface LookupResult {
@@ -45,14 +63,5 @@ public interface ExtensionRegistry {
          * @return Extensions that do not exist in any platform, the version MUST be set in the build descriptor
          */
         List<Extension> getIndependentExtensions();
-    }
-
-    @Value.Immutable
-    interface LookupParameters {
-
-        @Nullable
-        String getQuarkusCore();
-
-        List<AppArtifactKey> getExtensions();
     }
 }

@@ -14,17 +14,20 @@ import java.util.TreeMap;
 
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
+import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import io.quarkus.registry.ExtensionRegistry;
 import io.quarkus.registry.LookupResultBuilder;
 import io.quarkus.registry.catalog.spi.IndexVisitor;
-import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 
 import static java.util.stream.Collectors.toList;
 
 /**
- * Stores the indexed extension catalog in memory
+ * Builds a Registry while extension catalog is being indexed.
+ * This may be costly if indexed every time.
+ *
+ * @see DefaultExtensionRegistry
  */
-public class MemoryExtensionRegistry implements ExtensionRegistry, IndexVisitor, Serializable {
+public class CatalogExtensionRegistry implements ExtensionRegistry, IndexVisitor, Serializable {
 
     private final Map<String, Set<Extension>> extensionsByCoreVersion = new TreeMap<>();
 
@@ -76,6 +79,11 @@ public class MemoryExtensionRegistry implements ExtensionRegistry, IndexVisitor,
                 .addAllPlatforms(new HashSet<>(extensionPlatformMap.values()))
                 .addAllIndependentExtensions(extensionList)
                 .build();
+    }
+
+    @Override
+    public Set<Extension> list(String quarkusCore, String query) {
+        return Collections.emptySet();
     }
 
     @Override

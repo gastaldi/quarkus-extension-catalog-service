@@ -4,23 +4,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import io.quarkus.bootstrap.model.AppArtifactCoords;
+import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
-import io.quarkus.registry.model.ArtifactCoords;
-import io.quarkus.registry.model.ArtifactCoordsBuilder;
-import io.quarkus.registry.model.ArtifactKey;
-import io.quarkus.registry.model.ArtifactKeyBuilder;
+import io.quarkus.registry.catalog.spi.IndexVisitor;
 import io.quarkus.registry.model.ExtensionBuilder;
 import io.quarkus.registry.model.PlatformBuilder;
 import io.quarkus.registry.model.Registry;
 import io.quarkus.registry.model.RegistryBuilder;
 import io.quarkus.registry.model.ReleaseBuilder;
-import io.quarkus.registry.catalog.spi.IndexVisitor;
 
 public class RegistryModelBuilder implements IndexVisitor {
 
-    private final Map<ArtifactKey, PlatformBuilder> platforms = new LinkedHashMap<>();
-    private final Map<ArtifactKey, ExtensionBuilder> extensions = new LinkedHashMap<>();
+    private final Map<AppArtifactKey, PlatformBuilder> platforms = new LinkedHashMap<>();
+    private final Map<AppArtifactKey, ExtensionBuilder> extensions = new LinkedHashMap<>();
 
     RegistryBuilder registryBuilder = new RegistryBuilder();
 
@@ -29,8 +27,7 @@ public class RegistryModelBuilder implements IndexVisitor {
         registryBuilder.addVersions(platform.getQuarkusVersion());
         registryBuilder.addAllCategories(platform.getCategories());
 
-        ArtifactKey platformKey = new ArtifactKeyBuilder().groupArtifactId(platform.getBomGroupId() + ":" + platform.getBomArtifactId())
-                .build();
+        AppArtifactKey platformKey = new AppArtifactKey(platform.getBomGroupId(), platform.getBomArtifactId());
 
         PlatformBuilder platformBuilder = platforms.computeIfAbsent(platformKey, key ->
                 new PlatformBuilder().id(key));
@@ -38,9 +35,10 @@ public class RegistryModelBuilder implements IndexVisitor {
         platformBuilder.addReleases(new ReleaseBuilder().version(platform.getBomVersion())
                                             .quarkusCore(platform.getQuarkusVersion())
                                             .build());
-        ArtifactCoords platformCoords = new ArtifactCoordsBuilder().id(platformKey)
-                .version(platform.getBomVersion()).build();
 
+        AppArtifactCoords platformCoords = new AppArtifactCoords(platform.getBomGroupId(),
+                                                                 platform.getBomArtifactId(),
+                                                                 platform.getBomVersion());
         for (Extension extension : platform.getExtensions()) {
             visitExtension(extension, platform.getQuarkusVersion(), platformCoords);
         }
@@ -51,14 +49,13 @@ public class RegistryModelBuilder implements IndexVisitor {
         visitExtension(extension, quarkusCore, null);
     }
 
-    private void visitExtension(Extension extension, String quarkusCore, ArtifactCoords platform) {
+    private void visitExtension(Extension extension, String quarkusCore, AppArtifactCoords platform) {
         // Ignore unlisted extensions
         if (extension.isUnlisted()) {
             return;
         }
         registryBuilder.addVersions(quarkusCore);
-        ArtifactKey extensionKey = new ArtifactKeyBuilder().groupArtifactId(extension.getGroupId() + ":" + extension.getArtifactId())
-                .build();
+        AppArtifactKey extensionKey = new AppArtifactKey(extension.getGroupId(), extension.getArtifactId());
         ExtensionBuilder extensionBuilder = extensions.computeIfAbsent(extensionKey, key ->
                 new ExtensionBuilder()
                         .id(key)

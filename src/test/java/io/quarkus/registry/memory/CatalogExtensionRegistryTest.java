@@ -15,16 +15,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MemoryExtensionRegistryTest {
+class CatalogExtensionRegistryTest {
 
-    static MemoryExtensionRegistry catalog = new MemoryExtensionRegistry();
+    static CatalogExtensionRegistry catalog = new CatalogExtensionRegistry();
 
     @BeforeAll
     static void setUp() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Repository repository = Repository.parse(Paths.get("src/test/resources/repository"), mapper);
         RepositoryIndexer indexer = new RepositoryIndexer(new DefaultArtifactResolver(mapper));
-        indexer.index(repository, MemoryExtensionRegistryTest.catalog);
+        indexer.index(repository, CatalogExtensionRegistryTest.catalog);
     }
 
     @Test

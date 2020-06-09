@@ -6,15 +6,19 @@ import java.util.SortedSet;
 
 import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.quarkus.bootstrap.model.AppArtifactCoords;
+import io.quarkus.bootstrap.model.AppArtifactKey;
 import org.immutables.value.Value;
 
 @Value.Immutable
 @JsonDeserialize(builder = ExtensionBuilder.class)
 public interface Extension {
     @JsonUnwrapped
-    ArtifactKey getId();
+    @JsonIgnoreProperties(value = {"type", "classifier", "key"})
+    AppArtifactKey getId();
 
     @Value.Auxiliary
     String getName();
@@ -31,5 +35,6 @@ public interface Extension {
     SortedSet<Release> getReleases();
 
     @Value.Auxiliary
-    List<ArtifactCoords> getPlatforms();
+    @JsonIgnoreProperties(value = {"type", "classifier", "key"})
+    List<AppArtifactCoords> getPlatforms();
 }

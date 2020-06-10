@@ -3,13 +3,13 @@ package io.quarkus.registry;
 import java.io.IOException;
 import java.util.Objects;
 
-import io.quarkus.registry.model.Release;
-import io.quarkus.registry.catalog.spi.ArtifactResolver;
-import io.quarkus.registry.catalog.spi.IndexVisitor;
-import io.quarkus.registry.catalog.model.Repository;
+import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import io.quarkus.registry.catalog.model.Extension;
 import io.quarkus.registry.catalog.model.Platform;
-import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
+import io.quarkus.registry.catalog.model.Repository;
+import io.quarkus.registry.catalog.spi.ArtifactResolver;
+import io.quarkus.registry.catalog.spi.IndexVisitor;
+import io.quarkus.registry.model.Release;
 
 /**
  * Indexes a repository

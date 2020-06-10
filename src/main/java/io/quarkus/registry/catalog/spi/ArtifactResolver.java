@@ -2,10 +2,10 @@ package io.quarkus.registry.catalog.spi;
 
 import java.io.IOException;
 
-import io.quarkus.registry.model.Release;
+import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import io.quarkus.registry.catalog.model.Extension;
 import io.quarkus.registry.catalog.model.Platform;
-import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
+import io.quarkus.registry.model.Release;
 
 /**
  * Resolves artifacts from the underlying artifact repositories

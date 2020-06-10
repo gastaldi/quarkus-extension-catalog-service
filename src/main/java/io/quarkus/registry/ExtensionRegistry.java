@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 import io.quarkus.bootstrap.model.AppArtifactCoords;
 import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
-import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import org.immutables.value.Value;
 
 public interface ExtensionRegistry {

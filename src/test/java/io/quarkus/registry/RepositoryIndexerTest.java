@@ -5,9 +5,9 @@ import java.nio.file.Paths;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.dependencies.Extension;
+import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import io.quarkus.registry.catalog.model.Repository;
 import io.quarkus.registry.catalog.spi.IndexVisitor;
-import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

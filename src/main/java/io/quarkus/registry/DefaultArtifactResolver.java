@@ -11,12 +11,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import io.quarkus.registry.model.Release;
+import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
+import io.quarkus.platform.descriptor.loader.json.impl.QuarkusJsonPlatformDescriptor;
 import io.quarkus.registry.catalog.model.Extension;
 import io.quarkus.registry.catalog.model.Platform;
 import io.quarkus.registry.catalog.spi.ArtifactResolver;
-import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
-import io.quarkus.platform.descriptor.loader.json.impl.QuarkusJsonPlatformDescriptor;
+import io.quarkus.registry.model.Release;
 
 public class DefaultArtifactResolver implements ArtifactResolver {
 

@@ -62,13 +62,14 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
         Set<Extension> result = new LinkedHashSet<>();
         final Pattern searchPattern = Pattern.compile(".*" + keyword + ".*", Pattern.CASE_INSENSITIVE);
         for (io.quarkus.registry.model.Extension extension : registry.getExtensions()) {
-            extension.getReleases().stream()
-                    .filter(extensionRelease -> quarkusCore.equals(extensionRelease.getRelease().getQuarkusCore()))
-                    .findFirst().ifPresent(release -> {
-                if (searchPattern.matcher(extension.getName()).matches()) {
-                    result.add(toQuarkusExtension(extension, release.getRelease().getVersion()));
+            for (ExtensionRelease extensionRelease : extension.getReleases()) {
+                if (quarkusCore.equals(extensionRelease.getRelease().getQuarkusCore())) {
+                    if (searchPattern.matcher(extension.getName()).matches()) {
+                        result.add(toQuarkusExtension(extension, extensionRelease.getRelease().getVersion()));
+                    }
+                    break;
                 }
-            });
+            }
         }
         return result;
     }

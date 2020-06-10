@@ -30,7 +30,7 @@ class CatalogExtensionRegistryTest {
 
     @Test
     void shouldReturnFourQuarkusCoreVersions() {
-        assertThat(catalog.getQuarkusCoreVersions()).containsExactly("1.1.0.CR1", "1.3.1.Final", "1.3.2.Final", "1.4.0.CR1");
+        assertThat(catalog.getQuarkusCoreVersions()).containsExactly("1.4.0.CR1", "1.3.2.Final", "1.3.1.Final", "1.1.0.CR1");
     }
 
     @Test

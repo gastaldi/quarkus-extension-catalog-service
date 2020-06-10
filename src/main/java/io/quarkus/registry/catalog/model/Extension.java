@@ -22,4 +22,8 @@ public interface Extension {
 
     @Value.Auxiliary
     List<Release> getReleases();
+
+    static ExtensionBuilder builder() {
+        return new ExtensionBuilder();
+    }
 }

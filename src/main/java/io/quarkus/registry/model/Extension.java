@@ -37,4 +37,8 @@ public interface Extension {
     @Value.Auxiliary
     @JsonIgnoreProperties(value = {"type", "classifier", "key"})
     List<AppArtifactCoords> getPlatforms();
+
+    static ExtensionBuilder builder() {
+        return new ExtensionBuilder();
+    }
 }

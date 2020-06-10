@@ -55,7 +55,6 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
 
     @Override
     public Set<Extension> list(String quarkusCore, String keyword) {
-//        TreeSet<Extension> result = new TreeSet(Comparator.comparing(io.quarkus.registry.model.Extension::getName));
         Set<Extension> result = new LinkedHashSet<>();
         final Pattern searchPattern = Pattern.compile(".*" + keyword + ".*", Pattern.CASE_INSENSITIVE);
         for (io.quarkus.registry.model.Extension extension : registry.getExtensions()) {

@@ -36,4 +36,8 @@ public interface Platform {
 
     @Value.Auxiliary
     List<Release> getReleases();
+
+    static PlatformBuilder builder() {
+        return new PlatformBuilder();
+    }
 }

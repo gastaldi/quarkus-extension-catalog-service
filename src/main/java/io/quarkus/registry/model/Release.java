@@ -22,6 +22,10 @@ public interface Release extends Comparable<Release> {
     @Nullable
     String getRepositoryURL();
 
+    static ReleaseBuilder builder() {
+        return new ReleaseBuilder();
+    }
+
     @Override
     default int compareTo(Release o) {
         //TODO: Compare using SemVer rules

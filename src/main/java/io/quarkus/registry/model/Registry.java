@@ -20,4 +20,7 @@ public interface Registry {
 
     Set<Category> getCategories();
 
+    static RegistryBuilder builder() {
+        return new RegistryBuilder();
+    }
 }

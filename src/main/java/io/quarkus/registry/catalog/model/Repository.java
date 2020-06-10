@@ -24,6 +24,10 @@ public abstract class Repository {
 
     public abstract List<Platform> getPlatforms();
 
+
+    public static RepositoryBuilder builder() {
+        return new RepositoryBuilder();
+    }
     /**
      * - Match all files ending with '.json' inside an extensions directory
      * - Match platforms.json
@@ -31,7 +35,7 @@ public abstract class Repository {
     public static Repository parse(Path rootPath, ObjectMapper mapper) {
         ObjectReader reader = mapper.reader()
                 .with(mapper.getDeserializationConfig().with(PropertyNamingStrategy.KEBAB_CASE));
-        return new RepositoryBuilder()
+        return builder()
                 .addAllPlatforms(parse(rootPath.resolve("platforms.json"), Platform.class, reader))
                 .addAllIndividualExtensions(parse(rootPath.resolve("extensions"), Extension.class, reader))
                 .build();

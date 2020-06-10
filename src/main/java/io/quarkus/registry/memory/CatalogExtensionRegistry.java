@@ -3,6 +3,7 @@ package io.quarkus.registry.memory;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -11,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import io.quarkus.bootstrap.model.AppArtifactCoords;
 import io.quarkus.bootstrap.model.AppArtifactKey;
@@ -20,6 +22,8 @@ import io.quarkus.registry.ExtensionRegistry;
 import io.quarkus.registry.LookupResultBuilder;
 import io.quarkus.registry.catalog.spi.IndexVisitor;
 
+import static java.util.Comparator.reverseOrder;
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -36,7 +40,7 @@ public class CatalogExtensionRegistry implements ExtensionRegistry, IndexVisitor
 
     @Override
     public Set<String> getQuarkusCoreVersions() {
-        return Collections.unmodifiableSet(extensionsByCoreVersion.keySet());
+        return extensionsByCoreVersion.keySet().stream().sorted(reverseOrder()).collect(toCollection(LinkedHashSet::new));
     }
 
     // findById methods

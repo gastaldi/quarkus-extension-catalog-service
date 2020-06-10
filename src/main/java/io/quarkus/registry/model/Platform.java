@@ -18,4 +18,8 @@ public interface Platform {
 
     @Value.Auxiliary
     Set<Release> getReleases();
+
+    static PlatformBuilder builder() {
+        return new PlatformBuilder();
+    }
 }

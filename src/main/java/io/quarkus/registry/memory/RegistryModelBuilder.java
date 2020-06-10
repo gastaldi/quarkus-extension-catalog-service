@@ -24,7 +24,7 @@ public class RegistryModelBuilder implements IndexVisitor {
 
     private final Map<AppArtifactKey, ExtensionBuilder> extensions = new LinkedHashMap<>();
 
-    private final Map<AppArtifactCoords, ExtensionReleaseBuilder> releases = new HashMap<>();
+    private final Map<AppArtifactCoordsQuarkusVersion, ExtensionReleaseBuilder> releases = new LinkedHashMap<>();
 
     RegistryBuilder registryBuilder = new RegistryBuilder();
 
@@ -70,12 +70,12 @@ public class RegistryModelBuilder implements IndexVisitor {
                         .metadata(extension.getMetadata())
         );
         AppArtifactCoords coords = new AppArtifactCoords(extension.getGroupId(), extension.getArtifactId(), extension.getVersion());
-        ExtensionReleaseBuilder releaseBuilder = releases.computeIfAbsent(coords,
+        ExtensionReleaseBuilder releaseBuilder = releases.computeIfAbsent(new AppArtifactCoordsQuarkusVersion(coords, quarkusCore),
                                                                           appArtifactCoords ->
                                                                                   io.quarkus.registry.model.Extension.ExtensionRelease.builder()
                                                                                           .release(Release.builder()
-                                                                                                           .version(extension.getVersion())
-                                                                                                           .quarkusCore(quarkusCore)
+                                                                                                           .version(appArtifactCoords.coords.getVersion())
+                                                                                                           .quarkusCore(appArtifactCoords.quarkusVersion)
                                                                                                                .build()));
         if (platform != null) {
             releaseBuilder.addPlatforms(platform);
@@ -83,14 +83,48 @@ public class RegistryModelBuilder implements IndexVisitor {
     }
 
     public Registry build() {
-        for (Map.Entry<AppArtifactCoords, ExtensionReleaseBuilder> entry : releases.entrySet()) {
-            AppArtifactCoords coords = entry.getKey();
+        for (Map.Entry<AppArtifactCoordsQuarkusVersion, ExtensionReleaseBuilder> entry : releases.entrySet()) {
+            AppArtifactCoordsQuarkusVersion coordsQuarkusVersion = entry.getKey();
             ExtensionReleaseBuilder extensionReleaseBuilder = entry.getValue();
-            AppArtifactKey key = new AppArtifactKey(coords.getGroupId(), coords.getArtifactId());
-            extensions.get(key).addReleases(extensionReleaseBuilder.build());
+            AppArtifactKey key = new AppArtifactKey(coordsQuarkusVersion.coords.getGroupId(), coordsQuarkusVersion.coords.getArtifactId());
+            ExtensionBuilder extensionBuilder = extensions.get(key);
+            extensionBuilder.addReleases(extensionReleaseBuilder.build());
         }
         extensions.values().stream().map(ExtensionBuilder::build).forEach(registryBuilder::addExtensions);
         platforms.values().stream().map(PlatformBuilder::build).forEach(registryBuilder::addPlatforms);
         return registryBuilder.build();
+    }
+
+
+    private class AppArtifactCoordsQuarkusVersion {
+        final AppArtifactCoords coords;
+        final String quarkusVersion;
+
+        private AppArtifactCoordsQuarkusVersion(AppArtifactCoords coords, String quarkusVersion) {
+            this.coords = coords;
+            this.quarkusVersion = quarkusVersion;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof AppArtifactCoordsQuarkusVersion)) return false;
+            AppArtifactCoordsQuarkusVersion that = (AppArtifactCoordsQuarkusVersion) o;
+            return coords.equals(that.coords) &&
+                    quarkusVersion.equals(that.quarkusVersion);
+        }
+
+        @Override
+        public String toString() {
+            return "AppArtifactCoordsQuarkusVersion{" +
+                    "coords=" + coords +
+                    ", quarkusVersion='" + quarkusVersion + '\'' +
+                    '}';
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(coords, quarkusVersion);
+        }
     }
 }

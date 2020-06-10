@@ -37,6 +37,6 @@ class RegistryModelBuilderTest {
         ObjectMapper mapper = new ObjectMapper()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .setPropertyNamingStrategy(PropertyNamingStrategy.KEBAB_CASE);
-        mapper.writeValue(new File("/tmp/registry.json"), registry);
+//        mapper.writeValue(new File("/tmp/registry.json"), registry);
     }
 }

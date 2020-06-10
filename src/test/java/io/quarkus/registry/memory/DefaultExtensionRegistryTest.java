@@ -90,4 +90,14 @@ class DefaultExtensionRegistryTest {
                 .hasFieldOrPropertyWithValue("version", "2.3-next-M2");
     }
 
+    @Test
+    void shouldLookupSinglePlatform() {
+        ExtensionRegistry.LookupResult result = extensionRegistry.lookup(
+                new LookupParametersBuilder().quarkusCore("1.3.1.Final").addExtensions(
+                        AppArtifactKey.fromString("org.apache.camel.quarkus:camel-quarkus-xstream")
+                ).build());
+        assertThat(result.getPlatforms()).hasSize(1);
+
+    }
+
 }

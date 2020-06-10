@@ -14,7 +14,6 @@ public interface Release extends Comparable<Release> {
 
     @Nullable
     @JsonProperty("quarkus-core")
-    @Value.Auxiliary
     String getQuarkusCore();
 
     @JsonProperty("repository-url")
@@ -29,6 +28,10 @@ public interface Release extends Comparable<Release> {
     @Override
     default int compareTo(Release o) {
         //TODO: Compare using SemVer rules
-        return getVersion().compareTo(o.getVersion());
+        int compare = getVersion().compareTo(o.getVersion());
+        if (compare == 0) {
+            compare = getQuarkusCore().compareTo(o.getQuarkusCore());
+        }
+        return compare;
     }
 }

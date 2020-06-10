@@ -1,5 +1,6 @@
 package io.quarkus.registry.memory;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -36,6 +37,6 @@ class RegistryModelBuilderTest {
         ObjectMapper mapper = new ObjectMapper()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .setPropertyNamingStrategy(PropertyNamingStrategy.KEBAB_CASE);
-        mapper.writeValue(System.out, registry);
+        mapper.writeValue(new File("/tmp/registry.json"), registry);
     }
 }

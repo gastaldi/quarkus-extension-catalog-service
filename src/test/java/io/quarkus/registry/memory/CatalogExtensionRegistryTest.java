@@ -47,7 +47,7 @@ class CatalogExtensionRegistryTest {
                 ).build());
         assertThat(result).isNotNull();
         assertThat(result.getPlatforms()).hasSize(1);
-        assertThat(result.getPlatforms().get(0).getBomArtifactId()).isEqualTo("quarkus-universe-bom");
+        assertThat(result.getPlatforms().iterator().next().getArtifactId()).isEqualTo("quarkus-universe-bom");
         assertThat(result.getExtensionsInPlatforms()).hasSize(2);
         assertThat(result.getIndependentExtensions()).isEmpty();
     }
@@ -60,7 +60,7 @@ class CatalogExtensionRegistryTest {
         ).build());
         assertThat(result).isNotNull();
         assertThat(result.getPlatforms()).hasSize(1);
-        assertThat(result.getPlatforms().get(0).getBomArtifactId()).isEqualTo("quarkus-bom");
+        assertThat(result.getPlatforms().iterator().next().getArtifactId()).isEqualTo("quarkus-bom");
     }
 
     @Test
@@ -73,7 +73,7 @@ class CatalogExtensionRegistryTest {
         assertThat(result.getPlatforms()).isEmpty();
         assertThat(result.getExtensionsInPlatforms()).isEmpty();
         assertThat(result.getIndependentExtensions()).hasSize(1);
-        assertThat(result.getIndependentExtensions().get(0))
+        assertThat(result.getIndependentExtensions().iterator().next())
                 .hasFieldOrPropertyWithValue("groupId", "org.apache.myfaces.core.extensions.quarkus")
                 .hasFieldOrPropertyWithValue("artifactId", "myfaces-quarkus-runtime")
                 .hasFieldOrPropertyWithValue("version", "2.3-next-M2");

@@ -2,6 +2,7 @@ package io.quarkus.registry.model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 
 import javax.annotation.Nullable;
@@ -32,13 +33,30 @@ public interface Extension {
 
     @Value.Auxiliary
     @Value.ReverseOrder
-    SortedSet<Release> getReleases();
-
-    @Value.Auxiliary
-    @JsonIgnoreProperties(value = {"type", "classifier", "key"})
-    List<AppArtifactCoords> getPlatforms();
+    SortedSet<ExtensionRelease> getReleases();
 
     static ExtensionBuilder builder() {
         return new ExtensionBuilder();
+    }
+
+    @Value.Immutable
+    @JsonDeserialize(builder = ExtensionReleaseBuilder.class)
+    interface ExtensionRelease extends Comparable<ExtensionRelease>{
+
+        @JsonUnwrapped
+        Release getRelease();
+
+        @Value.Auxiliary
+        @JsonIgnoreProperties(value = {"type", "classifier", "key"})
+        Set<AppArtifactCoords> getPlatforms();
+
+        static ExtensionReleaseBuilder builder() {
+            return new ExtensionReleaseBuilder();
+        }
+
+        @Override
+        default int compareTo(ExtensionRelease o) {
+            return getRelease().compareTo(o.getRelease());
+        }
     }
 }

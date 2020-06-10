@@ -1,5 +1,6 @@
 package io.quarkus.registry.memory;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -10,15 +11,20 @@ import io.quarkus.dependencies.Extension;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import io.quarkus.registry.catalog.spi.IndexVisitor;
 import io.quarkus.registry.model.ExtensionBuilder;
+import io.quarkus.registry.model.ExtensionReleaseBuilder;
 import io.quarkus.registry.model.PlatformBuilder;
 import io.quarkus.registry.model.Registry;
 import io.quarkus.registry.model.RegistryBuilder;
+import io.quarkus.registry.model.Release;
 import io.quarkus.registry.model.ReleaseBuilder;
 
 public class RegistryModelBuilder implements IndexVisitor {
 
     private final Map<AppArtifactKey, PlatformBuilder> platforms = new LinkedHashMap<>();
+
     private final Map<AppArtifactKey, ExtensionBuilder> extensions = new LinkedHashMap<>();
+
+    private final Map<AppArtifactCoords, ExtensionReleaseBuilder> releases = new HashMap<>();
 
     RegistryBuilder registryBuilder = new RegistryBuilder();
 
@@ -56,22 +62,33 @@ public class RegistryModelBuilder implements IndexVisitor {
         }
         registryBuilder.addVersions(quarkusCore);
         AppArtifactKey extensionKey = new AppArtifactKey(extension.getGroupId(), extension.getArtifactId());
-        ExtensionBuilder extensionBuilder = extensions.computeIfAbsent(extensionKey, key ->
+        extensions.computeIfAbsent(extensionKey, key ->
                 new ExtensionBuilder()
                         .id(key)
                         .name(Objects.toString(extension.getName(), extension.getArtifactId()))
                         .description(extension.getDescription())
                         .metadata(extension.getMetadata())
         );
-        extensionBuilder.addReleases(new ReleaseBuilder().version(extension.getVersion())
-                                             .quarkusCore(quarkusCore)
-                                             .build());
+        AppArtifactCoords coords = new AppArtifactCoords(extension.getGroupId(), extension.getArtifactId(), extension.getVersion());
+        ExtensionReleaseBuilder releaseBuilder = releases.computeIfAbsent(coords,
+                                                                          appArtifactCoords ->
+                                                                                  io.quarkus.registry.model.Extension.ExtensionRelease.builder()
+                                                                                          .release(Release.builder()
+                                                                                                           .version(extension.getVersion())
+                                                                                                           .quarkusCore(quarkusCore)
+                                                                                                               .build()));
         if (platform != null) {
-            extensionBuilder.addPlatforms(platform);
+            releaseBuilder.addPlatforms(platform);
         }
     }
 
     public Registry build() {
+        for (Map.Entry<AppArtifactCoords, ExtensionReleaseBuilder> entry : releases.entrySet()) {
+            AppArtifactCoords coords = entry.getKey();
+            ExtensionReleaseBuilder extensionReleaseBuilder = entry.getValue();
+            AppArtifactKey key = new AppArtifactKey(coords.getGroupId(), coords.getArtifactId());
+            extensions.get(key).addReleases(extensionReleaseBuilder.build());
+        }
         extensions.values().stream().map(ExtensionBuilder::build).forEach(registryBuilder::addExtensions);
         platforms.values().stream().map(PlatformBuilder::build).forEach(registryBuilder::addPlatforms);
         return registryBuilder.build();

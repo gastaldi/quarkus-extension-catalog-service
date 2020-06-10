@@ -52,17 +52,17 @@ public interface ExtensionRegistry {
         /**
          * @return Platforms (BOMs) to be added to the build descriptor
          */
-        List<QuarkusPlatformDescriptor> getPlatforms();
+        Set<AppArtifactCoords> getPlatforms();
 
         /**
          * @return Extensions that are included in the platforms returned in {@link #getPlatforms()},
          * therefore setting the version is not required.
          */
-        List<Extension> getExtensionsInPlatforms();
+        Set<Extension> getExtensionsInPlatforms();
 
         /**
          * @return Extensions that do not exist in any platform, the version MUST be set in the build descriptor
          */
-        List<Extension> getIndependentExtensions();
+        Set<Extension> getIndependentExtensions();
     }
 }

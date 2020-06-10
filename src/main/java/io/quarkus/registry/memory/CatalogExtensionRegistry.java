@@ -3,7 +3,6 @@ package io.quarkus.registry.memory;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -12,7 +11,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import io.quarkus.bootstrap.model.AppArtifactCoords;
 import io.quarkus.bootstrap.model.AppArtifactKey;
@@ -82,7 +80,7 @@ public class CatalogExtensionRegistry implements ExtensionRegistry, IndexVisitor
         // Remove extensions containing platforms
         extensionList.removeAll(extensionPlatformMap.keySet());
         return builder.addAllExtensionsInPlatforms(extensionPlatformMap.keySet())
-                .addAllPlatforms(new HashSet<>(extensionPlatformMap.values()))
+                .addAllPlatforms(extensionPlatformMap.values().stream().map(descriptor -> new AppArtifactCoords(descriptor.getBomGroupId(), descriptor.getBomArtifactId(), descriptor.getBomVersion())).collect(toList()))
                 .addAllIndependentExtensions(extensionList)
                 .build();
     }

@@ -11,11 +11,11 @@ import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import io.quarkus.registry.catalog.spi.IndexVisitor;
 import io.quarkus.registry.model.ExtensionBuilder;
 import io.quarkus.registry.model.ExtensionReleaseBuilder;
+import io.quarkus.registry.model.Platform;
 import io.quarkus.registry.model.PlatformBuilder;
 import io.quarkus.registry.model.Registry;
 import io.quarkus.registry.model.RegistryBuilder;
 import io.quarkus.registry.model.Release;
-import io.quarkus.registry.model.ReleaseBuilder;
 
 public class RegistryModelBuilder implements IndexVisitor {
 
@@ -34,10 +34,9 @@ public class RegistryModelBuilder implements IndexVisitor {
 
         AppArtifactKey platformKey = new AppArtifactKey(platform.getBomGroupId(), platform.getBomArtifactId());
 
-        PlatformBuilder platformBuilder = platforms.computeIfAbsent(platformKey, key ->
-                new PlatformBuilder().id(key));
+        PlatformBuilder platformBuilder = platforms.computeIfAbsent(platformKey, key -> Platform.builder().id(key));
 
-        platformBuilder.addReleases(new ReleaseBuilder().version(platform.getBomVersion())
+        platformBuilder.addReleases(Release.builder().version(platform.getBomVersion())
                                             .quarkusCore(platform.getQuarkusVersion())
                                             .build());
 
@@ -62,7 +61,7 @@ public class RegistryModelBuilder implements IndexVisitor {
         registryBuilder.addVersions(quarkusCore);
         AppArtifactKey extensionKey = new AppArtifactKey(extension.getGroupId(), extension.getArtifactId());
         extensions.computeIfAbsent(extensionKey, key ->
-                new ExtensionBuilder()
+                io.quarkus.registry.model.Extension.builder()
                         .id(key)
                         .name(Objects.toString(extension.getName(), extension.getArtifactId()))
                         .description(extension.getDescription())

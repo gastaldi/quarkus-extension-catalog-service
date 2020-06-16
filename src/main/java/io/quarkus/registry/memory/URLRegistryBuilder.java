@@ -1,4 +1,4 @@
-package io.quarkus.registry;
+package io.quarkus.registry.memory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -11,16 +11,16 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import io.quarkus.registry.model.Registry;
 import io.quarkus.registry.model.RegistryBuilder;
 
-public class RegistryReader {
+public class URLRegistryBuilder {
 
     private final List<URL> urls = new ArrayList<>();
 
-    public RegistryReader addURL(URL url) {
+    public URLRegistryBuilder addURL(URL url) {
         urls.add(url);
         return this;
     }
 
-    public Registry create() throws IOException {
+    public Registry build() throws IOException {
         if (urls.isEmpty()) {
             throw new IllegalStateException("At least one URL must be specified");
         }

@@ -13,8 +13,7 @@ import org.immutables.value.Value;
 public interface Platform {
 
     @JsonUnwrapped
-    @JsonIgnoreProperties(value = {"type", "classifier", "key"})
-    AppArtifactKey getId();
+    ArtifactKey getId();
 
     @Value.Auxiliary
     Set<Release> getReleases();

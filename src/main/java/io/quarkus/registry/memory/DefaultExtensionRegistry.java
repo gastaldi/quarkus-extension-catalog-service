@@ -12,6 +12,8 @@ import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.registry.ExtensionRegistry;
 import io.quarkus.registry.LookupResultBuilder;
+import io.quarkus.registry.model.ArtifactCoords;
+import io.quarkus.registry.model.ArtifactKey;
 import io.quarkus.registry.model.Extension.ExtensionRelease;
 import io.quarkus.registry.model.Registry;
 import io.quarkus.registry.model.Release;
@@ -85,13 +87,19 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
                     for (ExtensionRelease extensionRelease : extension.getReleases()) {
                         Release release = extensionRelease.getRelease();
                         if (Objects.equals(release.getQuarkusCore(), quarkusCore)) {
-                            Set<AppArtifactCoords> platforms = extensionRelease.getPlatforms();
+                            Set<ArtifactCoords> platforms = extensionRelease.getPlatforms();
                             Extension quarkusExtension = toQuarkusExtension(extension, release.getVersion());
                             if (platforms.isEmpty()) {
                                 builder.addIndependentExtensions(quarkusExtension);
                             } else {
                                 builder.addExtensionsInPlatforms(quarkusExtension);
-                                builder.addAllPlatforms(platforms);
+                                platforms.stream()
+                                        .map(coords ->
+                                                     new AppArtifactCoords(
+                                                             coords.getId().getGroupId(),
+                                                             coords.getId().getArtifactId(),
+                                                             coords.getVersion()))
+                                        .forEach(builder::addPlatforms);
                             }
                             break;
                         }
@@ -103,7 +111,7 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
     }
 
     private Extension toQuarkusExtension(io.quarkus.registry.model.Extension ext, String release) {
-        AppArtifactKey id = ext.getId();
+        ArtifactKey id = ext.getId();
         return new Extension()
                 .setGroupId(id.getGroupId())
                 .setArtifactId(id.getArtifactId())
@@ -113,7 +121,7 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
                 .setMetadata(ext.getMetadata());
     }
 
-    private boolean equals(AppArtifactKey key1, AppArtifactKey key2) {
+    private boolean equals(ArtifactKey key1, AppArtifactKey key2) {
         return Objects.equals(key1.getGroupId(), key2.getGroupId())
                 && Objects.equals(key1.getArtifactId(), key2.getArtifactId());
     }

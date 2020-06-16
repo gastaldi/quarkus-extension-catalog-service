@@ -17,8 +17,7 @@ import org.immutables.value.Value;
 @JsonDeserialize(builder = ExtensionBuilder.class)
 public interface Extension {
     @JsonUnwrapped
-    @JsonIgnoreProperties(value = {"type", "classifier", "key"})
-    AppArtifactKey getId();
+    ArtifactKey getId();
 
     @Value.Auxiliary
     String getName();
@@ -47,7 +46,7 @@ public interface Extension {
 
         @Value.Auxiliary
         @JsonIgnoreProperties(value = {"type", "classifier", "key"})
-        Set<AppArtifactCoords> getPlatforms();
+        Set<ArtifactCoords> getPlatforms();
 
         static ExtensionReleaseBuilder builder() {
             return new ExtensionReleaseBuilder();

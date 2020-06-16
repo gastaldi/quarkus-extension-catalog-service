@@ -55,10 +55,6 @@
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-bootstrap-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-platform-descriptor-json</artifactId>
       <version>${quarkus.version}</version>
     </dependency>

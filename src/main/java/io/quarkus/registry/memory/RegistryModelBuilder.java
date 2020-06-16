@@ -4,14 +4,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import io.quarkus.bootstrap.model.AppArtifactCoords;
-import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.platform.descriptor.QuarkusPlatformDescriptor;
 import io.quarkus.registry.catalog.spi.IndexVisitor;
 import io.quarkus.registry.model.ArtifactCoords;
-import io.quarkus.registry.model.ArtifactCoordsBuilder;
-import io.quarkus.registry.model.ArtifactCoordsTuple;
 import io.quarkus.registry.model.ArtifactKey;
 import io.quarkus.registry.model.ExtensionBuilder;
 import io.quarkus.registry.model.ExtensionReleaseBuilder;
@@ -20,6 +16,7 @@ import io.quarkus.registry.model.PlatformBuilder;
 import io.quarkus.registry.model.Registry;
 import io.quarkus.registry.model.RegistryBuilder;
 import io.quarkus.registry.model.Release;
+import org.immutables.value.Value;
 
 public class RegistryModelBuilder implements IndexVisitor {
 
@@ -106,4 +103,17 @@ public class RegistryModelBuilder implements IndexVisitor {
         platforms.values().stream().map(PlatformBuilder::build).forEach(registryBuilder::addPlatforms);
         return registryBuilder.build();
     }
+
+    @Value.Immutable
+    public interface ArtifactCoordsTuple {
+
+        ArtifactCoords getCoords();
+
+        String getQuarkusVersion();
+
+        static ArtifactCoordsTupleBuilder builder() {
+            return new ArtifactCoordsTupleBuilder();
+        }
+    }
+
 }

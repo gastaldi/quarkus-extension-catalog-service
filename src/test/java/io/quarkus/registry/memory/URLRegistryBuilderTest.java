@@ -3,7 +3,7 @@ package io.quarkus.registry.memory;
 import java.io.IOException;
 import java.net.URL;
 
-import io.quarkus.registry.memory.URLRegistryBuilder;
+import io.quarkus.registry.builder.URLRegistryBuilder;
 import io.quarkus.registry.model.Registry;
 import org.junit.jupiter.api.Test;
 

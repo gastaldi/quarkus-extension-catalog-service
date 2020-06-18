@@ -12,6 +12,7 @@ import io.quarkus.registry.DefaultArtifactResolver;
 import io.quarkus.registry.ExtensionRegistry;
 import io.quarkus.registry.LookupParametersBuilder;
 import io.quarkus.registry.RepositoryIndexer;
+import io.quarkus.registry.builder.RegistryModelBuilder;
 import io.quarkus.registry.catalog.model.Repository;
 import io.quarkus.registry.model.Registry;
 import org.junit.jupiter.api.BeforeAll;

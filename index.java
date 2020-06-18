@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import io.quarkus.registry.DefaultArtifactResolver;
 import io.quarkus.registry.RepositoryIndexer;
 import io.quarkus.registry.catalog.model.Repository;
-import io.quarkus.registry.memory.RegistryModelBuilder;
+import io.quarkus.registry.builder.RegistryModelBuilder;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;

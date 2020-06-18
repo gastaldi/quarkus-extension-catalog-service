@@ -1,4 +1,4 @@
-package io.quarkus.registry.memory;
+package io.quarkus.registry.impl;
 
 import java.io.IOException;
 import java.nio.file.Paths;

@@ -7,7 +7,7 @@ import io.quarkus.registry.ExtensionRegistry;
 import io.quarkus.registry.catalog.model.Extension;
 import io.quarkus.registry.catalog.model.Platform;
 import io.quarkus.registry.catalog.spi.ArtifactResolver;
-import io.quarkus.registry.memory.DefaultExtensionRegistry;
+import io.quarkus.registry.impl.DefaultExtensionRegistry;
 import io.quarkus.registry.model.Registry;
 import io.quarkus.registry.model.Release;
 

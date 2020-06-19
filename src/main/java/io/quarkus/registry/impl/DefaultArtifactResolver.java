@@ -1,4 +1,4 @@
-package io.quarkus.registry;
+package io.quarkus.registry.impl;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

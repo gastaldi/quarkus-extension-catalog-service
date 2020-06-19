@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import io.quarkus.registry.DefaultArtifactResolver;
 import io.quarkus.registry.RepositoryIndexer;
 import io.quarkus.registry.builder.RegistryModelBuilder;
 import io.quarkus.registry.catalog.model.Repository;

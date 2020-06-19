@@ -1,4 +1,4 @@
-package io.quarkus.registry.impl;
+package io.quarkus.registry.builder;
 
 import java.io.IOException;
 import java.net.URL;

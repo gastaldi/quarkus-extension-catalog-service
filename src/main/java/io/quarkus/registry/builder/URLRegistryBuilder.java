@@ -3,6 +3,7 @@ package io.quarkus.registry.builder;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,6 +18,11 @@ public class URLRegistryBuilder {
 
     public URLRegistryBuilder addURL(URL url) {
         urls.add(url);
+        return this;
+    }
+
+    public URLRegistryBuilder addURLs(Collection<URL> urls) {
+        this.urls.addAll(urls);
         return this;
     }
 

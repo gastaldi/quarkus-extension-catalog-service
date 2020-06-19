@@ -1,4 +1,4 @@
-package io.quarkus.registry;
+package io.quarkus.registry.impl;
 
 import java.io.IOException;
 import java.net.URL;
@@ -9,6 +9,7 @@ import io.quarkus.registry.catalog.model.Extension;
 import io.quarkus.registry.catalog.model.ExtensionBuilder;
 import io.quarkus.registry.catalog.model.Platform;
 import io.quarkus.registry.catalog.model.PlatformBuilder;
+import io.quarkus.registry.impl.DefaultArtifactResolver;
 import io.quarkus.registry.model.Release;
 import io.quarkus.registry.model.ReleaseBuilder;
 import org.junit.jupiter.api.BeforeEach;

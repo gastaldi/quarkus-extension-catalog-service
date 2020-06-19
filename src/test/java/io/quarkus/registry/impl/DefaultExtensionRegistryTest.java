@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import io.quarkus.bootstrap.model.AppArtifactCoords;
 import io.quarkus.bootstrap.model.AppArtifactKey;
-import io.quarkus.registry.DefaultArtifactResolver;
 import io.quarkus.registry.ExtensionRegistry;
 import io.quarkus.registry.LookupParametersBuilder;
 import io.quarkus.registry.RepositoryIndexer;

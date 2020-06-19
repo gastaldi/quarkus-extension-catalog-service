@@ -1,5 +1,8 @@
 package io.quarkus.registry.impl;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -12,6 +15,7 @@ import io.quarkus.bootstrap.model.AppArtifactKey;
 import io.quarkus.dependencies.Extension;
 import io.quarkus.registry.ExtensionRegistry;
 import io.quarkus.registry.LookupResultBuilder;
+import io.quarkus.registry.builder.URLRegistryBuilder;
 import io.quarkus.registry.model.ArtifactCoords;
 import io.quarkus.registry.model.ArtifactKey;
 import io.quarkus.registry.model.Extension.ExtensionRelease;
@@ -25,6 +29,19 @@ import io.quarkus.registry.model.Release;
 public class DefaultExtensionRegistry implements ExtensionRegistry {
 
     private final Registry registry;
+
+    /**
+     * Create a {@link DefaultExtensionRegistry} out of a {@link Collection} of {@link URL}s
+     * @param urls urls used to lookup this registry
+     * @return a {@link DefaultExtensionRegistry} instance
+     * @throws IOException if any IO error occurs while reading each URL contents
+     */
+    public static DefaultExtensionRegistry fromURLs(Collection<URL> urls) throws IOException {
+        Registry registry = new URLRegistryBuilder()
+                .addURLs(urls)
+                .build();
+        return new DefaultExtensionRegistry(registry);
+    }
 
     public DefaultExtensionRegistry(Registry registry) {
         this.registry = Objects.requireNonNull(registry, "Registry cannot be null");

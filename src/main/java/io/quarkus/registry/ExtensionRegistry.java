@@ -44,6 +44,10 @@ public interface ExtensionRegistry {
         String getQuarkusCore();
 
         List<AppArtifactKey> getExtensions();
+
+        static LookupParametersBuilder builder() {
+            return new LookupParametersBuilder();
+        }
     }
 
     @Value.Immutable
@@ -63,5 +67,9 @@ public interface ExtensionRegistry {
          * @return Extensions that do not exist in any platform, the version MUST be set in the build descriptor
          */
         Set<Extension> getIndependentExtensions();
+
+        static LookupResultBuilder builder() {
+            return new LookupResultBuilder();
+        }
     }
 }

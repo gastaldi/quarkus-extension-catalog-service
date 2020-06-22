@@ -24,18 +24,20 @@ public class ExtensionRegistryBuilder {
         this.artifactResolver = artifactResolver;
     }
 
-    public void addPlatform(String groupId, String artifactId, String version) throws IOException {
+    public ExtensionRegistryBuilder addPlatform(String groupId, String artifactId, String version) throws IOException {
         Platform platform = Platform.builder().groupId(groupId).artifactId(artifactId).build();
         Release release = Release.builder().version(version).build();
         QuarkusPlatformDescriptor descriptor = artifactResolver.resolvePlatform(platform, release);
         registryModelBuilder.visitPlatform(descriptor);
+        return this;
     }
 
-    public void addExtension(String groupId, String artifactId, String version, String quarkusCore) throws IOException {
+    public ExtensionRegistryBuilder addExtension(String groupId, String artifactId, String version, String quarkusCore) throws IOException {
         Extension extension = Extension.builder().groupId(groupId).artifactId(artifactId).build();
         Release release = Release.builder().version(version).build();
         io.quarkus.dependencies.Extension ext = artifactResolver.resolveExtension(extension, release);
         registryModelBuilder.visitExtension(ext, quarkusCore);
+        return this;
     }
 
     public ExtensionRegistry build() {

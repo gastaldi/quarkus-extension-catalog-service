@@ -7,12 +7,12 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.quarkus</groupId>
-  <artifactId>quarkus-registry-descriptor</artifactId>
+  <artifactId>quarkus-registry-descriptor-resolver</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <properties>
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-    <quarkus.version>1.5.1.Final</quarkus.version>
+    <quarkus.version>999-SNAPSHOT</quarkus.version>
   </properties>
 
   <issueManagement>
@@ -29,62 +29,31 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <dependency>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-bootstrap-core</artifactId>
-        <version>${quarkus.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.maven.wagon</groupId>
-            <artifactId>wagon-provider-api</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.immutables</groupId>
-        <artifactId>value</artifactId>
-        <version>2.8.3</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.code.findbugs</groupId>
-        <artifactId>jsr305</artifactId>
-        <version>3.0.2</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-bootstrap-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-platform-descriptor-api</artifactId>
+      <artifactId>quarkus-devtools-common</artifactId>
       <version>${quarkus.version}</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-platform-descriptor-json</artifactId>
       <version>${quarkus.version}</version>
-      <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-platform-descriptor-resolver-json</artifactId>
+      <version>${quarkus.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.immutables</groupId>
-      <artifactId>value</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <scope>provided</scope>
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli</artifactId>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -96,26 +65,8 @@
       <artifactId>assertj-core</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.smallrye.reactive</groupId>
-      <artifactId>mutiny</artifactId>
-    </dependency>
   </dependencies>
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>io.quarkus</groupId>
-          <artifactId>quarkus-maven-plugin</artifactId>
-          <version>${quarkus.version}</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -142,9 +93,9 @@
 
   </build>
   <scm>
-    <url>https://github.com/quarkusio/quarkus-registry-descriptor</url>
-    <connection>scm:git:git@github.com:quarkusio/quarkus-registry-descriptor.git</connection>
-    <developerConnection>scm:git:git@github.com:quarkusio/quarkus-registry-descriptor.git</developerConnection>
+    <url>https://github.com/quarkusio/quarkus-registry-descriptor-resolver</url>
+    <connection>scm:git:git@github.com:quarkusio/quarkus-registry-descriptor-resolver.git</connection>
+    <developerConnection>scm:git:git@github.com:quarkusio/quarkus-registry-descriptor-resolver.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 

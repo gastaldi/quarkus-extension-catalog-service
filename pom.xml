@@ -17,7 +17,7 @@
 
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/quarkusio/quarkus-extension-catalog-service/issues</url>
+    <url>https://github.com/quarkusio/quarkus-registry-descriptor-resolver/issues</url>
   </issueManagement>
 
   <dependencyManagement>
@@ -34,26 +34,12 @@
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-devtools-common</artifactId>
-      <version>${quarkus.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-platform-descriptor-json</artifactId>
-      <version>${quarkus.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-platform-descriptor-resolver-json</artifactId>
       <version>${quarkus.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>info.picocli</groupId>
-      <artifactId>picocli</artifactId>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
